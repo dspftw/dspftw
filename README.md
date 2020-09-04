@@ -11,6 +11,12 @@ z(t) = A*exp(j*(2π*f*t+ϕ))
 z(t) = A*cos(2π*f*t+ϕ)+j*A*sin(2π*f*t+ϕ)
 ```
 
-## Resources
-[Intro to Sinusoids](http://www.eas.uccs.edu/~mwickert/ece2610/lecture_notes/ece2610_chap2.pdf)
-[SigIDWiki sample signals](https://www.sigidwiki.com/)
+[Complex Exponential Signals](https://www.cs.ccu.edu.tw/~wtchu/courses/2012s_DSP/Lectures/Lecture%203%20Complex%20Exponential%20Signals.pdf)
+
+## Roots of Unity
+![Roots of Unity Animation](https://mathworld.wolfram.com/images/gifs/rootsu.gif)
+
+[Wolfram Mathworld](https://mathworld.wolfram.com/RootofUnity.html)
+
+## Sample Signals
+* [SigIDWiki sample signals](https://www.sigidwiki.com/)
