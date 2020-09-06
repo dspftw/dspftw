@@ -35,6 +35,7 @@ def my_sinusoid(t): return dspftw.complex_sinusoid(A=5, f=5, t=t, phi=0)
 We can get the signal at a bunch of times thanks to numpy arrays.  We use `numpy.linspace` to generate the evenly spaced times.
 
 ```python
+import numpy as np
 times = np.linspace(0, 10, num=10)  # 10 evenly spaced values between 0 and 10
 my_signal = my_sinusoid(times)  # returns an array of complex values representing the signal
 ```
