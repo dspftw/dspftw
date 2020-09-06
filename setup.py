@@ -25,7 +25,6 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'Topic :: Scientific/Engineering',
-        'Topic :: Scientific/Engineering :: Digital Signal Processing',
         'Topic :: Scientific/Engineering :: Mathematics',
         'License :: OSI Approved :: MIT License'
     ]
