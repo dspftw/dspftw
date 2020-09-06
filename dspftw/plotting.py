@@ -3,27 +3,31 @@
 import matplotlib.pyplot as plt
 
 def plot_signal(signal, times):
-    rows = 2
-    columns = 2
-    figure, subplots = plt.subplots(rows, columns)
-    real_subplot = subplots[0][0]
-    constellation_subplot = subplots[0][1]
-    imaginary_subplot = subplots[1][0]
-    ortho_subplot = subplots[1][1]
+    figure = plt.figure()
+    gridspec = figure.add_gridspec(2, 2)
+    real_subplot = figure.add_subplot(gridspec[0, 0])
+    imaginary_subplot = figure.add_subplot(gridspec[1, 0])
+    constellation_subplot = figure.add_subplot(gridspec[0, 1])
+    ortho_subplot = figure.add_subplot(gridspec[1, 1], projection='3d')
 
-    real_subplot.plot(times, [s.real for s in signal])
+    real_data = [s.real for s in signal]
+    imag_data = [s.imag for s in signal]
+
+    real_subplot.plot(times, real_data)
     real_subplot.set_xlabel('time')
     real_subplot.set_ylabel('real')
 
-    imaginary_subplot.plot(times, [s.imag for s in signal])
+    imaginary_subplot.plot(times, imag_data)
     imaginary_subplot.set_xlabel('time')
     imaginary_subplot.set_ylabel('imaginary')
 
-    constellation_subplot.scatter(
-        [s.real for s in signal],
-        [s.imag for s in signal],
-        color='red')
+    constellation_subplot.scatter(real_data, imag_data, color='red')
     constellation_subplot.set_xlabel('real')
     constellation_subplot.set_ylabel('imaginary')
+
+    ortho_subplot.plot(times, real_data, imag_data)
+    ortho_subplot.set_xlabel('time')
+    ortho_subplot.set_ylabel('real')
+    ortho_subplot.set_zlabel('imaginary')
 
     return figure

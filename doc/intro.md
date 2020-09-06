@@ -2,6 +2,14 @@
 
 Starting points for learning digital signal processing.
 
+## Setup
+
+If you haven't already, install Python 3.5 or greater, and the `dspftw` package.
+
+```sh
+python3 -m pip install dspftw --user
+```
+
 ## Sinusoids
 Prefer to use the complex exponential form instead of real, as it's a more natural fit for fourier analysis and synthesis.
 
@@ -40,14 +48,11 @@ times = np.linspace(0, 10, num=10)  # 10 evenly spaced values between 0 and 10
 my_signal = my_sinusoid(times)  # returns an array of complex values representing the signal
 ```
 
-And plot it out with matplotlib.
+Now plot it out with `dspftw.plot_signal`, which uses matplotlib.
 
 ```python
 import matplotlib.pyplot as plt
-
-X = [x.real for x in my_signal]
-Y = [x.imag for x in my_signal]
-plt.scatter(X,Y, color='red')
+dspftw.plot_signal(my_signal, times)
 plt.show()
 ```
 
