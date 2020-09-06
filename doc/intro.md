@@ -44,7 +44,7 @@ We can get the signal at a bunch of times thanks to numpy arrays.  We use `numpy
 
 ```python
 import numpy as np
-times = np.linspace(0, 10, num=10)  # 10 evenly spaced values between 0 and 10
+times = np.linspace(0, 1, num=25)  # 25 evenly spaced values between 0 and 1
 my_signal = my_sinusoid(times)  # returns an array of complex values representing the signal
 ```
 
