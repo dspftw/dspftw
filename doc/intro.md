@@ -10,8 +10,19 @@ If you haven't already, install Python 3.5 or greater, and the `dspftw` package.
 python3 -m pip install dspftw --user
 ```
 
+## Decomposition
+
+[Superposition: The foundation of DSP](http://www.dspguide.com/ch5/6.htm)
+
 ## Sinusoids
 Prefer to use the complex exponential form instead of real, as it's a more natural fit for fourier analysis and synthesis.
+
+The following functions represent a complex sinusoid.  They are equivalent, and take the same parameters:
+
+* A = Amplitude (y axis is amplitude).
+* f = Frequency (cycles per second) in Hertz.  It is multiplied by 2π to get radians per second.
+* t = Time.  These functions work in the time domain (x axis is time).
+* ϕ = Phase offset at t=0, in radians.
 
 ```
 z(t) = A*exp(j*(2π*f*t+ϕ))
@@ -62,6 +73,14 @@ plt.show()
 ![Roots of Unity Animation](https://mathworld.wolfram.com/images/gifs/rootsu.gif)
 
 [Wolfram Mathworld](https://mathworld.wolfram.com/RootofUnity.html)
+
+## Delta Function
+
+## Convolution
+
+[Convolution](https://www.dspguide.com/ch6/2.htm)
+
+## Kronecker Product
 
 ## Sample Signals
 * [SigIDWiki sample signals](https://www.sigidwiki.com/)
