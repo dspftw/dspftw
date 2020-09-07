@@ -21,7 +21,7 @@ The following functions represent a complex sinusoid.  They are equivalent, and 
 
 * A = Amplitude (y axis is amplitude).
 * f = Frequency (cycles per second) in Hertz.  It is multiplied by 2π to get radians per second.
-* t = Time.  These functions work in the time domain (x axis is time).
+* t = Time in seconds.  These functions work in the time domain (x axis is time).
 * ϕ = Phase offset at t=0, in radians.
 
 ```
@@ -76,11 +76,21 @@ plt.show()
 
 ## Delta Function
 
+## Conjugate
+
+[Complex Conjugate](https://en.wikipedia.org/wiki/Complex_conjugate)
+
 ## Convolution
 
 [Convolution](https://www.dspguide.com/ch6/2.htm)
 
+## Correlation
+
+[numpy.correlate](https://numpy.org/doc/stable/reference/generated/numpy.correlate.html)
+
 ## Kronecker Product
+
+[numpy.kron](https://numpy.org/doc/stable/reference/generated/numpy.kron.html)
 
 ## Sample Signals
 * [SigIDWiki sample signals](https://www.sigidwiki.com/)
