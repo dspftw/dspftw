@@ -93,4 +93,40 @@ plt.show()
 [numpy.kron](https://numpy.org/doc/stable/reference/generated/numpy.kron.html)
 
 ## Sample Signals
-* [SigIDWiki sample signals](https://www.sigidwiki.com/)
+
+[SigIDWiki sample signals](https://www.sigidwiki.com/)
+
+## Loading Signals
+
+### Complex 8 bit
+
+```python
+import numpy as np
+signal = np.fromfile('filename', dtype='b')  # load the whole file
+signal = np.fromfile('filename', dtype='b', count=1024)  # only load the first 1024 bytes of the file
+signal = np.fromfile('filename', dtype='b', offset=1024)  # skip the first 1024 bytes of the file
+signal = np.fromfile('filename', dtype='b', offset=1024, count=1024)  # skip 1024, then load 1024
+```
+
+This just loads the values as an array of real numbers, but we want it as complex.  We have to interpret every other value as the imaginary component.
+
+```python
+signal = signal[0::2] + signal[1::2]*1j
+```
+
+### Complex 32 bit float, little-endian (x86)
+
+```python
+signal = np.fromfile('filename', dtype='<f')
+```
+
+`count` and `offset` work as above, but note that `offset` is in bytes, so you must multiple by 4 since there are 4 bytes in 32 bits.
+
+
+### Complex 32 bit float, big-endian
+
+```python
+signal = np.fromfile('filename', dtype='>f')
+```
+
+`count` and `offset` work as above, but note that `offset` is in bytes, so you must multiple by 4 since there are 4 bytes in 32 bits.

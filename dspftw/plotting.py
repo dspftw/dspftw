@@ -1,6 +1,35 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
+from numpy import ndarray
+
 import matplotlib.pyplot as plt
+
+def plot_complex(complex_array: ndarray, **kwargs) -> plt.Figure:
+    '''
+    Plots complex data as a constellation.
+
+    Parameters
+    ----------
+    complex_array: array_like
+        The complex array to plot
+    kwargs: dict
+        Parameters passed through to plt.Figure.scatter().
+
+    '''
+    figure = plt.figure()
+    subplot = figure.add_subplot()
+    subplot.scatter([a.real for a in complex_array],
+                    [a.imag for a in complex_array],
+                    **kwargs)
+    subplot.set_xlabel('real')
+    subplot.set_ylabel('imag')
+    return figure
+
+def plotc(*args, **kwargs) -> plt.Figure:
+    '''
+    An alias of plot_complex().
+    '''
+    return plot_complex(*args, **kwargs)
 
 def plot_signal(signal, times):
     figure = plt.figure()
@@ -19,15 +48,15 @@ def plot_signal(signal, times):
 
     imaginary_subplot.plot(times, imag_data)
     imaginary_subplot.set_xlabel('time')
-    imaginary_subplot.set_ylabel('imaginary')
+    imaginary_subplot.set_ylabel('imag')
 
     constellation_subplot.scatter(real_data, imag_data, color='red')
     constellation_subplot.set_xlabel('real')
-    constellation_subplot.set_ylabel('imaginary')
+    constellation_subplot.set_ylabel('imag')
 
     ortho_subplot.plot(times, real_data, imag_data)
     ortho_subplot.set_xlabel('time')
     ortho_subplot.set_ylabel('real')
-    ortho_subplot.set_zlabel('imaginary')
+    ortho_subplot.set_zlabel('imag')
 
     return figure

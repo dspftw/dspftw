@@ -6,6 +6,11 @@ import numpy as np
 import dspftw
 
 class PlottingTests(unittest.TestCase):
+    def test_plot_complex(self):
+        complex_data = np.array([1+0j, 0+1j, -1+0j, 0-1j])
+        fig = dspftw.plot_complex(complex_data)
+        self.assertNotEqual(fig, None)
+
     def test_plot_signal(self):
         def my_sinusoid(t): return dspftw.complex_sinusoid(A=5, f=5, t=t, phi=0)
 
