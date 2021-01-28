@@ -4,9 +4,9 @@ from numpy import ndarray
 
 import matplotlib.pyplot as plt
 
-def plot_complex(complex_array: ndarray, **kwargs) -> plt.Figure:
+def plot_complex(*args, **kwargs) -> plt.Figure:
     '''
-    Plots complex data as a constellation.
+    Plots complex data in the complex plane.
 
     Parameters
     ----------
@@ -16,14 +16,16 @@ def plot_complex(complex_array: ndarray, **kwargs) -> plt.Figure:
         Parameters passed through to plt.Figure.scatter().
 
     '''
-    figure = plt.figure()
-    subplot = figure.add_subplot()
-    subplot.scatter([a.real for a in complex_array],
-                    [a.imag for a in complex_array],
-                    **kwargs)
-    subplot.set_xlabel('real')
-    subplot.set_ylabel('imag')
-    return figure
+    plotargs = []
+    for arg in args:
+        if type(arg) is ndarray:
+            plotargs.append(arg.real)
+            plotargs.append(arg.imag)
+        else:
+            plotargs.append(arg)
+
+    plt.plot(*plotargs, **kwargs)
+
 
 def plotc(*args, **kwargs) -> plt.Figure:
     '''
