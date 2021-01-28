@@ -24,7 +24,7 @@ def plot_complex(*args, **kwargs) -> plt.Figure:
         else:
             plotargs.append(arg)
 
-    plt.plot(*plotargs, **kwargs)
+    return plt.plot(*plotargs, **kwargs)
 
 
 def plotc(*args, **kwargs) -> plt.Figure:
