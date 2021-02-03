@@ -12,5 +12,4 @@ class PlottingTests(unittest.TestCase):
         complex_data_raw = np.random.randn(num_points, num_plots) + 1J*np.random.randn(num_points, num_plots)
         offsets = 8*np.exp(1J*2*np.pi*np.arange(num_plots)/num_plots).reshape((1,-1))
         complex_data = complex_data_raw + offsets
-        fig = dspftw.plot_complex(complex_data, '*-')
-        self.assertNotEqual(fig, None)
+        dspftw.plot_complex(complex_data, '*-')
