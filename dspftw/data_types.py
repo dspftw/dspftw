@@ -66,3 +66,60 @@ class FullDataType:
         self.data_type: DataType = normalize_data_type(data_type)
         self.endianness: Endianness = normalize_endianness(endianness)
         self.number_space: NumberSpace = normalize_number_space(number_space)
+
+    def numpy_dtype(self) -> str:
+        if self.data_type == DataType.DT8T:
+            return 'b'
+
+        if self.data_type == DataType.DT16T and self.endianness == Endianness.LITTLE:
+            return '<i2'
+
+        if self.data_type == DataType.DT16T and self.endianness == Endianness.BIG:
+            return '>i2'
+
+        if self.data_type == DataType.DT32T and self.endianness == Endianness.LITTLE:
+            return '<i4'
+
+        if self.data_type == DataType.DT32T and self.endianness == Endianness.BIG:
+            return '>i4'
+
+        if self.data_type == DataType.DT32F and self.endianness == Endianness.LITTLE:
+            return '<f4'
+
+        if self.data_type == DataType.DT32F and self.endianness == Endianness.BIG:
+            return '>f4'
+
+        if self.data_type == DataType.DT64F and self.endianness == Endianness.LITTLE:
+            return '<f8'
+
+        if self.data_type == DataType.DT64F and self.endianness == Endianness.BIG:
+            return '>f8'
+
+        raise DataTypeException('Could not determine numpy dtype')
+
+    def count(self, count) -> int:
+        if self.number_space == NumberSpace.REAL:
+            return count
+
+        if self.number_space == NumberSpace.COMPLEX:
+            return count * 2
+
+        raise DataTypeException('Could not determine count')
+
+    def offset(self, offset) -> int:
+        if self.number_space == NumberSpace.REAL:
+            return offset
+
+        if self.number_space == NumberSpace.COMPLEX:
+            return offset * 2
+
+        raise DataTypeException('Could not determine offset')
+
+    def post_load(self, data):
+        if self.number_space == NumberSpace.REAL:
+            return data
+
+        if self.number_space == NumberSpace.COMPLEX:
+            return data[0::2] + data[1::2]*1j
+
+        raise DataTypeException('Could not perform post_load')
