@@ -4,6 +4,7 @@ from numpy import ndarray
 from .exceptions import DSPFTWException
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 def plot_3d_complex(*args, **kwargs):
     '''
@@ -11,7 +12,7 @@ def plot_3d_complex(*args, **kwargs):
     
     Parameters
     ----------
-    args: complex ndarray(s) and possibly str(s)
+    args: real and complex ndarray(s) and possibly str(s)
         The complex data along with possibly time as well as formatting string(s)
         You may pair a real array with a complex one if you would like the real
         values to be displayed on the "time" axis.  The strings are for plotting
@@ -30,7 +31,7 @@ def plot_3d_complex(*args, **kwargs):
         elif np.isrealobj(arg):
             num_reals += 1
         elif np.iscomplexobj(arg):
-            num_complex += 1
+            num_cplxs += 1
         else:
             raise DSPFTWException("Input number {} (argument {}) is not a valid input argument".format(args.index(arg), arg))
     if num_reals > num_cplxs:
@@ -45,34 +46,54 @@ def plot_3d_complex(*args, **kwargs):
                 raise DSPFTWException("A complex argument must precede the formatting argument {}".format(args[k]))
             elif not np.iscomplexobj(args[k-1]):
                 raise DSPFTWException("A complex argument must precede the formatting argument {}".format(args[k]))
-        if np.isrealobj(args[k]):
+        if np.isrealobj(args[k]) and type(args[k]) is not str:
             if k == len(args)-1:
                 raise DSPFTWException("A complex argument must follow the real argument {}".format(args[k]))
             elif not np.iscomplexobj(args[k+1]):
                 raise DSPFTWException("A complex argument must follow the real argument {}".format(args[k+1]))
 
     # Work through the input argument list, separating it into chunks that go together
-    plotargs = []
+    t_plotargs = []
     t_args = []
-    for k in range(len(args)):
+    k = 0
+    while k < len(args):
         if np.isrealobj(args[k]):
             t_args.append(args[k])
-        if np.iscomplexobj(args[k]):
-            t_args.append(args[k].real)
-            t_args.append(args[k].imag)
-            if k+1 < len(args) and type(args[k+1]) is str:
-                t_args.append(args[k+1])
+            t_args.append(args[k+1])
+            if k+2 < len(args) and type(args[k+2]) is str:
+                t_args.append(args[k+2])
+                k += 3
             else:
                 t_args.append("-")
-            plotargs.append(t_args)
-            t_args = []
-        
+                k += 2
+        elif np.iscomplexobj(args[k]):
+            t_args.append(np.arange(args[k].shape[0]))
+            t_args.append(args[k])
+            if k+1 < len(args) and type(args[k+1]) is str:
+                t_args.append(args[k+1])
+                k += 2
+            else:
+                t_args.append("-")
+                k += 1
+        t_plotargs.append(t_args)
+        t_args = []
 
+    # Expand all the complex arrays
+    plotargs = []
+    for args in t_plotargs:
+        if len(args[1].shape) > 1:
+            for k in range(args[1].shape[1]):
+                plotargs.extend([args[0], args[1][:, k].real, args[1][:, k].imag, args[2]])
+        else:
+            plotargs.extend([args[0], args[1].real, args[1].imag, args[2]])
 
     # x = time
     # y = real part
     # z = imag part
     ax = plt.axes(projection='3d')
+    for k in range(len(plotargs)//4):
+        t_args = plotargs[k*4:(k+1)*4]
+        ax.plot(*t_args, **kwargs)
     
 
 
