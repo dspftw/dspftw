@@ -2,6 +2,8 @@
 
 from enum import Enum, auto
 
+from numpy import array as nparray
+
 from .exceptions import DataTypeException
 
 class DataType(Enum):
@@ -18,6 +20,18 @@ class Endianness(Enum):
 class NumberSpace(Enum):
     REAL = auto()
     COMPLEX = auto()
+
+def scale_data(data_type: DataType, data: nparray) -> nparray:
+    if data_type == DataType.DT8T:
+        return data / (2**7)
+
+    if data_type == DataType.DT16T:
+        return data / (2**15)
+
+    if data_type == DataType.DT32T:
+        return data / (2**31)
+
+    return data
 
 def normalize_data_type(data_type: str) -> DataType:
     data_type = data_type.strip().lower()
@@ -115,11 +129,13 @@ class FullDataType:
 
         raise DataTypeException('Could not determine offset')
 
-    def post_load(self, data):
+    def post_load(self, data: nparray) -> nparray:
+        scaled_data = scale_data(self.data_type, data)
+
         if self.number_space == NumberSpace.REAL:
-            return data
+            return scaled_data
 
         if self.number_space == NumberSpace.COMPLEX:
-            return data[0::2] + data[1::2]*1j
+            return scaled_data[0::2] + scaled_data[1::2]*1j
 
         raise DataTypeException('Could not perform post_load')

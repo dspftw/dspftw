@@ -1,2 +1,5 @@
 .tox
 dist
+Pipfile.lock
+*.egg-info
+__pycache__
