@@ -4,7 +4,7 @@ from numpy import ndarray
 
 import matplotlib.pyplot as plt
 
-def plot_complex(*args, **kwargs) -> plt.Figure:
+def plot_complex(*args, **kwargs):
     '''
     Plots complex data in the complex plane.
 
@@ -28,7 +28,7 @@ def plot_complex(*args, **kwargs) -> plt.Figure:
     plt.plot(*plotargs, **kwargs)
 
 
-def plotc(*args, **kwargs) -> plt.Figure:
+def plotc(*args, **kwargs):
     '''
     An alias of plot_complex().
     '''
