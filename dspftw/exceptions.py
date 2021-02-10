@@ -3,5 +3,5 @@
 class DSPFTWException(Exception):
     pass
 
-class DataTypeException(DSPFTWException):
+class SignalTypeException(DSPFTWException):
     pass
