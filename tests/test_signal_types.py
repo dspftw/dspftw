@@ -6,15 +6,15 @@ import dspftw
 
 class FullSignalTypeTests(unittest.TestCase):
     def test_create(self):
-        dspftw.FullSignalType('8t', 'l', 'cplx')
-        dspftw.FullSignalType('64f', 'b', 'r')
+        dspftw.FullSignalType('8t', 'cplx', 'l')
+        dspftw.FullSignalType('64f', 'r', 'b')
 
     def test_exceptions(self):
         with self.assertRaises(dspftw.SignalTypeException):
-            dspftw.FullSignalType('4t', 'l', 'cplx')
+            dspftw.FullSignalType('4t', 'cplx', 'little')
 
         with self.assertRaises(dspftw.EndiannessException):
-            dspftw.FullSignalType('8t', 'h', 'cplx')
+            dspftw.FullSignalType('8t', 'cplx', 'h')
 
         with self.assertRaises(dspftw.SignalTypeException):
-            dspftw.FullSignalType('8t', 'l', 'potato')
+            dspftw.FullSignalType('8t', 'potato', 'big')

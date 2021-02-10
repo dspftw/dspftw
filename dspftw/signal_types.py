@@ -62,10 +62,10 @@ def normalize_number_space(number_space: str) -> NumberSpace:
     raise SignalTypeException('Unknown number space "{}"'.format(number_space))
 
 class FullSignalType:
-    def __init__(self, signal_type: str, endianness: str, number_space: str) -> None:
+    def __init__(self, signal_type: str, number_space: str, endianness: str) -> None:
         self.signal_type: SignalType = normalize_signal_type(signal_type)
-        self.endianness: Endianness = normalize_endianness(endianness)
         self.number_space: NumberSpace = normalize_number_space(number_space)
+        self.endianness: Endianness = normalize_endianness(endianness)
 
     def numpy_dtype(self) -> str:
         if self.signal_type == SignalType.ST8T:

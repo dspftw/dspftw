@@ -10,8 +10,8 @@ def plot_complex(*args, **kwargs):
 
     Parameters
     ----------
-    complex_array: array_like
-        The complex array to plot
+    args: array_like
+        The complex arrays to plot
     kwargs: dict
         Parameters passed through to plt.Figure.scatter().
 
