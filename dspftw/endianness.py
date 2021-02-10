@@ -1,6 +1,6 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
-from enum import Enum, auto
+from enum import Enum
 
 from .exceptions import EndiannessException
 

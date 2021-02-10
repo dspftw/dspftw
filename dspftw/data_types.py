@@ -1,8 +1,6 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
-from enum import Enum, auto
-
-from numpy import array as nparray
+from enum import Enum
 
 from .endianness import Endianness, normalize_endianness
 from .exceptions import DataTypeException

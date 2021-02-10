@@ -1,6 +1,5 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
-from numpy import ndarray
 from .exceptions import DSPFTWException
 
 import matplotlib.pyplot as plt
