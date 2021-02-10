@@ -5,3 +5,9 @@ class DSPFTWException(Exception):
 
 class SignalTypeException(DSPFTWException):
     pass
+
+class DataTypeException(DSPFTWException):
+    pass
+
+class EndiannessException(DSPFTWException):
+    pass

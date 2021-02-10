@@ -2,7 +2,19 @@
 
 from enum import Enum, auto
 
-class Endianness(Enum):
-    BIG = auto()
-    LITTLE = auto()
+from .exceptions import EndiannessException
 
+class Endianness(Enum):
+    BIG = '>'
+    LITTLE = '<'
+
+def normalize_endianness(endianness: str) -> Endianness:
+    endianness = endianness.strip().lower()
+
+    if endianness in ('l', 'little'):
+        return Endianness.LITTLE
+
+    if endianness in ('b', 'big'):
+        return Endianness.BIG
+
+    raise EndiannessException('Unknown endianness "{}"'.format(endianness))

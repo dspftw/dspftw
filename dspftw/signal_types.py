@@ -4,7 +4,7 @@ from enum import Enum, auto
 
 from numpy import array as nparray
 
-from .endianness import Endianness
+from .endianness import Endianness, normalize_endianness
 from .exceptions import SignalTypeException
 
 class SignalType(Enum):
@@ -49,17 +49,6 @@ def normalize_signal_type(signal_type: str) -> SignalType:
         return SignalType.ST64F
 
     raise SignalTypeException('Unknown signal type "{}"'.format(signal_type))
-
-def normalize_endianness(endianness: str) -> Endianness:
-    endianness = endianness.strip().lower()
-
-    if endianness in ('l', 'little'):
-        return Endianness.LITTLE
-
-    if endianness in ('b', 'big'):
-        return Endianness.BIG
-
-    raise SignalTypeException('Unknown endianness "{}"'.format(endianness))
 
 def normalize_number_space(number_space: str) -> NumberSpace:
     number_space = number_space.strip().lower()
@@ -108,7 +97,10 @@ class FullSignalType:
 
         raise SignalTypeException('Could not determine numpy dtype')
 
-    def count(self, count) -> int:
+    def count(self, count: int) -> int:
+        if count == -1:
+            return -1
+
         if self.number_space == NumberSpace.REAL:
             return count
 
@@ -117,7 +109,7 @@ class FullSignalType:
 
         raise SignalTypeException('Could not determine count')
 
-    def offset(self, offset) -> int:
+    def offset(self, offset: int) -> int:
         if self.number_space == NumberSpace.REAL:
             return offset
 

@@ -5,7 +5,7 @@ from numpy import fromfile
 
 from .signal_types import FullSignalType
 
-def load_signal(file_name: str, signal_type: str, endianness: str, number_space: str, num_samples: int=0, start_sample: int=0) -> nparray:
+def load_signal(file_name: str, signal_type: str, endianness: str, number_space: str, num_samples: int=-1, start_sample: int=0) -> nparray:
     full_signal_type = FullSignalType(signal_type, endianness, number_space)
     data = fromfile(file_name,
                     dtype=full_signal_type.numpy_dtype(),
