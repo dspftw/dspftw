@@ -20,8 +20,10 @@ def load_bits(file_name: str, count: int=-1, offset: int=0) -> nparray:
 
     Returns a numpy bool array.
     '''
-    bits = BitArray(file_name)
-    bit_ints = (int(b) for b in bits.split(''))
+    with open(file_name, 'rb') as bit_file:
+        bits = BitArray(bit_file)
+
+    bit_ints = [int(b) for b in bits.bin]
     bool_array = nparray(bit_ints, dtype=bool)
 
     if count == -1:
