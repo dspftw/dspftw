@@ -1,6 +1,6 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
-from numpy import pi, sin, cos, array, where, zeros
+from numpy import pi, sin, cos, where, zeros
 from numpy import array as nparray
 
 def root_raised_cosine(time_array: nparray, Ts: float, beta: float=0.25) -> nparray:
