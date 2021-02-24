@@ -16,5 +16,5 @@ class FullSignalTypeTests(unittest.TestCase):
         with self.assertRaises(dspftw.EndiannessException):
             dspftw.FullSignalType('8t', 'cplx', 'h')
 
-        with self.assertRaises(dspftw.SignalTypeException):
+        with self.assertRaises(dspftw.NumberSpaceException):
             dspftw.FullSignalType('8t', 'potato', 'big')

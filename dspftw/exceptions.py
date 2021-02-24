@@ -3,11 +3,17 @@
 class DSPFTWException(Exception):
     pass
 
-class SignalTypeException(DSPFTWException):
-    pass
-
 class DataTypeException(DSPFTWException):
     pass
 
 class EndiannessException(DSPFTWException):
+    pass
+
+class FileNameException(DSPFTWException):
+    pass
+
+class NumberSpaceException(DSPFTWException):
+    pass
+
+class SignalTypeException(DSPFTWException):
     pass

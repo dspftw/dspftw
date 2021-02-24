@@ -5,7 +5,7 @@ from enum import Enum, auto
 from numpy import array as nparray
 
 from .endianness import Endianness, normalize_endianness
-from .exceptions import SignalTypeException
+from .exceptions import NumberSpaceException, SignalTypeException
 
 class SignalType(Enum):
     ST8T = auto()
@@ -36,16 +36,16 @@ def normalize_signal_type(signal_type: str) -> SignalType:
     if signal_type == '8t':
         return SignalType.ST8T
 
-    if signal_type == '16t':
+    if signal_type in ('16t', '16tl', '16tr'):
         return SignalType.ST16T
 
-    if signal_type == '32t':
+    if signal_type in ('32t', '32tl', '32tr'):
         return SignalType.ST32T
 
-    if signal_type == '32f':
+    if signal_type in ('32f', '32fl', '32fr'):
         return SignalType.ST32F
 
-    if signal_type == '64f':
+    if signal_type in ('64f', '64fl', '64fr'):
         return SignalType.ST64F
 
     raise SignalTypeException('Unknown signal type "{}"'.format(signal_type))
@@ -59,7 +59,7 @@ def normalize_number_space(number_space: str) -> NumberSpace:
     if number_space in ('r', 'real'):
         return NumberSpace.REAL
 
-    raise SignalTypeException('Unknown number space "{}"'.format(number_space))
+    raise NumberSpaceException('Unknown number space "{}"'.format(number_space))
 
 class FullSignalType:
     def __init__(self, signal_type: str, number_space: str, endianness: str) -> None:

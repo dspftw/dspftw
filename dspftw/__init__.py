@@ -1,7 +1,7 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
 from .data_types import FullDataType
-from .exceptions import DataTypeException, EndiannessException, SignalTypeException
+from .exceptions import DataTypeException, EndiannessException, NumberSpaceException, SignalTypeException
 from .exceptions import DSPFTWException
 from .load_bits import load_bits, loadbits
 from .load_data import load_data, loaddata
