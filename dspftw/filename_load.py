@@ -93,3 +93,9 @@ def filename_load(filename: str, count: int=-1, offset: int=0) -> nparray:
         return load_bits(filename, count=count, offset=offset)
 
     raise FileNameException('Could not determine how to load {}'.format(filename))
+
+def fnload(*args, **kwargs) -> nparray:
+    '''
+    Alias for filename_load.
+    '''
+    return filename_load(*args, **kwargs)
