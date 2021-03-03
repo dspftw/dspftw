@@ -16,7 +16,10 @@ class LoadSignalTests(unittest.TestCase):
         with TemporaryDirectory() as tempdir:
             working_dir = Path(tempdir)
             output_path = working_dir.joinpath('test_file.'+signal_type)
-            octave_status, _ = getstatusoutput(f'octave {FILE_DIR}/octave/SigGenTest.m {output_path} {signal_type} {endianness}')
+            octave_command = f'octave {FILE_DIR}/octave/SigGenTest.m {output_path} {signal_type} {endianness}'
+            print(octave_command)
+            octave_status, octave_output = getstatusoutput(octave_command)
+            print(octave_output)
             self.assertEqual(octave_status, 0)
             return dspftw.load_signal(output_path, signal_type, 'cplx', endianness)
 
