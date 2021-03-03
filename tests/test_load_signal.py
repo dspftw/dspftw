@@ -23,8 +23,7 @@ class LoadSignalTests(unittest.TestCase):
             output_path = working_dir.joinpath('test_file.'+signal_type)
             octave_command = f'octave --path {FILE_DIR}/octave {FILE_DIR}/octave/SigGenTest.m {output_path} {signal_type} {endianness}'
             print(octave_command)
-            octave_status, octave_output = getstatusoutput(octave_command)
-            print(octave_output)
+            octave_status, _ = getstatusoutput(octave_command)
             self.assertEqual(octave_status, 0)
             return dspftw.load_signal(output_path, signal_type, 'cplx', endianness)
 
