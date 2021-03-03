@@ -7,15 +7,20 @@ from matplotlib import pyplot as plt
 from .decimal_convert_to_base import decimal_convert_to_base
 from .vector_power import vector_power
 
-def constellation_plot(constellation, binary_mode=0, scale=100):
+def constellation_plot(constellation: nparray, binary_mode: int=0, scale: int=100):
     """
-    Usage: [normalized_constellation] = constellation_plot(constellation, binary_mode, scale)
-    Input:
-    constellation - QAM constellation as a row ndarray vector of complex numbers
-    binary_mode   - Mode for printing symbols: 0 = decimals (default), 1 = binary
-    scale         - Character size (default 100)
-    Output:
-    normalized_constellation - Power normalized constellation
+    Plots symbol numbers at corresponding constellation points
+
+    Parameters
+    ----------
+    constellation:
+       QAM constellation as a row numpy array vector of complex numbers
+    binary_mode:
+       Mode for printing symbols: 0 = decimals (default), 1 = binary
+    scale:
+       Size of characters on plot (default 100)
+
+    Returns power normalized constellation as a numpy array
     """
 
     # Ensure constellation is a 1-dimensional complex array
