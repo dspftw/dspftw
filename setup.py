@@ -21,7 +21,7 @@ setup(
     url='https://github.com/dspftw/dspftw',
     packages=['dspftw'],
     package_data={'dspftw': ['doc/*']},
-    install_requires=['numpy', 'matplotlib'],
+    install_requires=['matplotlib', 'numpy', 'scipy'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Topic :: Scientific/Engineering',

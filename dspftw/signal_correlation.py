@@ -1,3 +1,5 @@
+# vim: expandtab tabstop=4 shiftwidth=4
+
 # Cross-Correlation with normalization set to default
 
 import numpy as np

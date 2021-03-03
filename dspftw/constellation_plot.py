@@ -1,9 +1,11 @@
-#import numpy as np
+# vim: expandtab tabstop=4 shiftwidth=4
+
 from numpy import array as nparray
 from numpy import floor, ceil, sqrt, log2, log10, arange
 from matplotlib import pyplot as plt
-from decimal_convert_to_base import decimal_convert_to_base
-from vector_power import vector_power
+
+from .decimal_convert_to_base import decimal_convert_to_base
+from .vector_power import vector_power
 
 def constellation_plot(constellation, binary_mode=0, scale=100):
     """
