@@ -14,7 +14,7 @@ FILE_DIR = os.path.dirname(os.path.realpath(__file__))
 class LoadSignalTests(unittest.TestCase):
     def generate_signal(self, signal_type: str, endianness: str) -> None:
         with TemporaryDirectory() as tempdir:
-            working_dir = Path(tempdir.name)
+            working_dir = Path(tempdir)
             output_path = working_dir.joinpath('test_file.'+signal_type)
             octave_status, _ = getstatusoutput(f'octave {FILE_DIR}/octave/SigGenTest.m {output_path} {signal_type} {endian}')
             self.assertEqual(octave_status, 0)
