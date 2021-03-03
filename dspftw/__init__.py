@@ -4,6 +4,7 @@ from .constellation_plot import conplot, constellation_plot
 from .data_types import FullDataType
 from .exceptions import DataTypeException, EndiannessException, NumberSpaceException, SignalTypeException
 from .exceptions import DSPFTWException
+from .filename_load import filename_load, fnload
 from .load_bits import load_bits, loadbits
 from .load_data import load_data, loaddata
 from .load_signal import load_signal, loadsig
