@@ -59,11 +59,13 @@ def get_sample_rate(filename: str) -> float:
     except AttributeError as ex:
         raise FileNameException('Could not determine sample rate from filename {}'.format(filename)) from ex
 
-def filename_load_signal(filename: str, count: int, offset: int) -> nparray:
+def get_extension(filename: str) -> str:
     _, extension = splitext(filename)
+    return extension[1:]  # remove leading dot
 
+def filename_load_signal(filename: str, count: int, offset: int) -> nparray:
     signal = load_signal(filename,
-                         extension,
+                         get_extension(filename),
                          get_number_space(filename),
                          endianness=get_endianness(filename),
                          num_samples=count,
