@@ -2,15 +2,16 @@
 
 # Cross-Correlation with normalization set to default
 
+from scipy.signal import correlate
+
 import numpy as np
-import scipy as ss
 
 def signal_correlation(in1, in2, norm=True):
     '''Cross-correlates two arrays and normalizes the output'''
     arrL = in1
     arrS = in2
     # If norm is set to False, unnormalized output will be returned
-    outArr = ss.correlate(arrL, arrS, mode='full')
+    outArr = correlate(arrL, arrS, mode='full')
     # Default output is set to normalized
     if norm:
         sPow = np.sqrt(np.sum(arrS*arrS.conj()))
