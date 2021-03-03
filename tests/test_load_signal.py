@@ -34,6 +34,6 @@ class LoadSignalTests(unittest.TestCase):
         self.assertFalse(has_nan(signal))
 
     def test_load_8t_signal(self):
-        signal = self.generate_signal('8t', 'big')
+        signal = self.generate_signal('8t', 'little')
         self.assertEqual(len(signal), 10_000)
         self.assertFalse(has_nan(signal))
