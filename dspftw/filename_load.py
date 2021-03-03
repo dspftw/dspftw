@@ -84,6 +84,7 @@ def filename_load(filename: str, count: int=-1, offset: int=0) -> nparray:
 
     returns a numpy array.
     '''
+    filename = str(filename)  # in case we get a pathlib.Path
     file_type = get_file_type(filename)
 
     if file_type == FileType.SIGNAL:
