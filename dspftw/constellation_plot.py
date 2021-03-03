@@ -1,8 +1,9 @@
-import numpy as np
+#import numpy as np
 from numpy import array as nparray
-from numpy import exp, sin, cos, floor, ceil, pi, max, sqrt, log2, log10
-from decimal_convert_to_base import *
-from vector_power import *
+from numpy import floor, ceil, sqrt, log2, log10, arange
+from matplotlib import pyplot as plt
+from decimal_convert_to_base import decimal_convert_to_base
+from vector_power import vector_power
 
 def constellation_plot(constellation, binary_mode=0, scale=100):
     """
@@ -18,48 +19,46 @@ def constellation_plot(constellation, binary_mode=0, scale=100):
     # Ensure constellation is a 1-dimensional complex array
     con = constellation.flatten().astype(complex)
     # Constellation size
-    M = len(con)
+    con_size = len(con)
 
     # Check Parameters
     # Constellations must contain at least 1 element
-    if (M < 1):
-        print("constellation_plot error: Constellation size (",M,") must be at least 1.")
+    if con_size < 1:
+        print("constellation_plot error: Constellation size (",con_size,") must be at least 1.")
         return constellation
 
     # If user provided mode, then it must be 0 or 1
-    if ( (binary_mode != 0) and (binary_mode != 1) ):
-        print("constellation_plot error: User input mode (",mode,") must be either 0 or 1.")
+#    if (binary_mode != 0) and (binary_mode != 1):
+    if binary_mode not in (0,1):
+        print("constellation_plot error: User input mode (",binary_mode,") must be either 0 or 1.")
         return constellation
 
     # If user provided sceale, then it must be nonnegative
-    if (scale < 0):
+    if scale < 0:
         print("constellation_plot error: User input scale (",scale,") must be nonnegative.")
         return constellation
 
-    # Import plot capabilities
-    from matplotlib import pyplot as plt
-
     # Number of bits per symbol
-    bps = ceil(log2(M)).astype(int)
+    bps = ceil(log2(con_size)).astype(int)
 
     # Plotting logic
-    plt.suptitle("Scatterplot of {0}-point constellation".format(M))
-    for k in np.arange(0,M):
+    plt.suptitle("Scatterplot of {0}-point constellation".format(con_size))
+    for k in arange(0,con_size):
         # Determine plot scale
-        if (binary_mode == 0): # Decimal Mode
+        if binary_mode == 0: # Decimal Mode
             # Number of decimal digits in k
-            if (k == 0):
+            if k == 0:
                 ndigit = 1
             else:
                 ndigit = floor(log10(k))+1
             size = scale*ndigit
             txt = "${0}$".format(k)
-        elif (binary_mode == 1): # Binary Mode
+        elif binary_mode == 1: # Binary Mode
             size = scale*bps
             tmp = decimal_convert_to_base(k,2,bps).flatten()
             # Convert binary array to string
             txt = "$"
-            for idx in np.arange(0,bps):
+            for idx in arange(0,bps):
                 txt = "{0}{1}".format(txt,tmp[idx])
             txt = "{0}$".format(txt)
         plt.scatter(con[k].real,con[k].imag,s=size,marker=txt,c='k')
