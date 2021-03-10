@@ -6,11 +6,14 @@ from setuptools import setup
 from os import path
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), 'r') as f:
-    long_description = f.read()
+    long_description = f.read().strip()
+
+with open(path.join(this_directory, 'VERSION'), 'r') as f:
+    VERSION = f.read().strip()
 
 setup(
     name='dspftw',
-    version='2020.251.0',
+    version=VERSION,
     author='Bill Allen',
     author_email='photo.allen@gmail.com',
     description='Utilities for digital signal processing (DSP) fundamentals.',
