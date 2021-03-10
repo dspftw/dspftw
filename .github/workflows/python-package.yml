@@ -54,7 +54,7 @@ jobs:
         python -m pip install setuptools twine
     - name: Publish with twine
       env:
-        TWINE_USERNAME: '__token__'
+        TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
       run: |
         python scripts/generate_version.py > VERSION
