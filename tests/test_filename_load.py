@@ -5,6 +5,7 @@ from numpy import isnan
 from pathlib import Path
 from subprocess import getstatusoutput
 from tempfile import TemporaryDirectory
+from typing import Any, Dict, Tuple
 
 import os
 import unittest
@@ -23,7 +24,7 @@ def endianness_suffix(endianness: str) -> str:
     return ''
 
 class FilenameLoadTests(unittest.TestCase):
-    def generate_signal(self, signal_type: str, endianness: str) -> nparray:
+    def generate_signal(self, signal_type: str, endianness: str) -> Tuple[nparray, Dict[str, Any]]:
         with TemporaryDirectory() as tempdir:
             working_dir = Path(tempdir)
             output_path = working_dir.joinpath('test_file.cplx.0.'+signal_type+endianness_suffix(endianness))
@@ -34,6 +35,7 @@ class FilenameLoadTests(unittest.TestCase):
             return dspftw.filename_load(output_path)
 
     def test_load_32fl_signal(self):
-        signal = self.generate_signal('32f', 'little')
+        signal, metadata = self.generate_signal('32f', 'little')
         self.assertEqual(len(signal), 10_000)
         self.assertFalse(has_nan(signal))
+        self.assertEqual(metadata['sample_rate'], 0.0)

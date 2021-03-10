@@ -3,6 +3,7 @@
 from enum import Enum, auto
 from os.path import splitext
 from re import compile as regex_compile
+from typing import Any, Dict, Tuple
 
 from numpy import array as nparray
 
@@ -63,7 +64,7 @@ def get_extension(filename: str) -> str:
     _, extension = splitext(filename)
     return extension[1:]  # remove leading dot
 
-def filename_load_signal(filename: str, count: int, offset: int) -> nparray:
+def filename_load_signal(filename: str, count: int, offset: int) -> Tuple[nparray, Dict[str, Any]]:
     signal = load_signal(filename,
                          get_extension(filename),
                          get_number_space(filename),
@@ -71,8 +72,11 @@ def filename_load_signal(filename: str, count: int, offset: int) -> nparray:
                          num_samples=count,
                          start_sample=offset)
 
-    signal.sample_rate = get_sample_rate(filename)
-    return signal
+    metadata = {
+        'sample_rate': get_sample_rate(filename),
+    }
+
+    return signal, metadata
 
 def filename_load(filename: str, count: int=-1, offset: int=0) -> nparray:
     '''
