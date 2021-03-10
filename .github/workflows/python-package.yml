@@ -59,4 +59,4 @@ jobs:
       run: |
         python scripts/generate_version.py > VERSION
         python setup.py sdist
-        twine --verbose upload dist/*
+        twine upload --verbose dist/*
