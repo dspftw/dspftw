@@ -84,11 +84,14 @@ def filename_load(filename: str, count: int=-1, offset: int=0) -> nparray:
 
     Parameters
     ----------
-    filename: The file name to load.
-    count: The number of items to load once the type is determined.
-    offset: Number of items to skip once the type is determined.
+    filename:
+        The file name to load.
+    count:
+        The number of items to load once the type is determined.
+    offset:
+        Number of items to skip once the type is determined.
 
-    returns a numpy array.
+    Returns a numpy array and a metadata dictionary.
     '''
     filename = str(filename)  # in case we get a pathlib.Path
     file_type = get_file_type(filename)

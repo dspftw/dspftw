@@ -24,7 +24,7 @@ def normalize_write_mode(mode: str) -> WriteMode:
 
 def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: str,
                 endianness: str, write_mode: str='w', trunc=true_zero) -> Tuple[int, int]:
-    """
+    '''
     Function to use numpy package to write PCM data.
 
     Parameters
@@ -46,7 +46,7 @@ def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: s
         Default is true_zero.
 
     Returns number of samples written and number of samples clipped.
-    """
+    '''
 
     full_signal_type = FullSignalType(signal_type, number_space, endianness)
     write_mode = normalize_write_mode(write_mode)
@@ -77,4 +77,7 @@ def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: s
     return num_written, num_clipped
 
 def savesig(*args, **kwargs):
+    '''
+    Alias for save_signal.
+    '''
     return save_signal(*args, **kwargs)
