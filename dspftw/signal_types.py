@@ -1,8 +1,9 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
 from enum import Enum, auto
+from typing import Tuple
 
-from numpy import array as nparray
+import numpy as np
 
 from .endianness import Endianness, normalize_endianness
 from .exceptions import NumberSpaceException, SignalTypeException
@@ -17,18 +18,6 @@ class SignalType(Enum):
 class NumberSpace(Enum):
     REAL = auto()
     COMPLEX = auto()
-
-def scale_signal(signal_type: SignalType, data: nparray) -> nparray:
-    if signal_type == SignalType.ST8T:
-        return data / (2**7)
-
-    if signal_type == SignalType.ST16T:
-        return data / (2**15)
-
-    if signal_type == SignalType.ST32T:
-        return data / (2**31)
-
-    return data
 
 def normalize_signal_type(signal_type: str) -> SignalType:
     signal_type = signal_type.strip().lower()
@@ -101,30 +90,65 @@ class FullSignalType:
         if count == -1:
             return -1
 
-        if self.number_space == NumberSpace.REAL:
-            return count
-
-        if self.number_space == NumberSpace.COMPLEX:
-            return count * 2
-
-        raise SignalTypeException('Could not determine count')
+        return count * self.items_per_sample()
 
     def offset(self, offset: int) -> int:
-        if self.number_space == NumberSpace.REAL:
-            return offset
+        return offset * self.items_per_sample()
 
-        if self.number_space == NumberSpace.COMPLEX:
-            return offset * 2
+    def post_load(self, data: np.array) -> np.array:
+        scaled_signal = data / self.scale()
 
-        raise SignalTypeException('Could not determine offset')
-
-    def post_load(self, data: nparray) -> nparray:
-        scaled_signal = scale_signal(self.signal_type, data)
-
-        if self.number_space == NumberSpace.REAL:
-            return scaled_signal
-
-        if self.number_space == NumberSpace.COMPLEX:
+        if self.is_complex():
             return scaled_signal[0::2] + scaled_signal[1::2]*1j
 
-        raise SignalTypeException('Could not perform post_load')
+        return scaled_signal
+
+    def clip_signal(self, signal: np.array) -> Tuple[np.array, int]:
+        mult = self.scale()
+
+        if self.is_complex():
+            sigflat = np.array([mult*signal.real, mult*signal.imag]).flatten('F')
+        else:
+            sigflat = np.copy(mult*signal)
+
+        # Count how many will be clipped below
+        clip_count = len(np.argwhere(sigflat < -1*mult).flatten())
+        # Clipping values that are too low
+        sigflat = np.where(sigflat < -1*mult, -1*mult, sigflat)
+
+        # Count how many will be clipped above
+        clip_count += len(np.argwhere(sigflat>=mult).flatten())
+        # Clipping values that are too high
+        sigflat = np.where(sigflat >= mult, mult-1, sigflat)
+
+        return sigflat, clip_count
+
+    def is_complex(self) -> bool:
+        if self.number_space == NumberSpace.COMPLEX:
+            return True
+
+        return False
+
+    def is_twos_compliment_signal_type(self) -> bool:
+        if self.signal_type in (SignalType.ST8T, SignalType.ST16T, SignalType.ST32T):
+            return True
+
+        return False
+
+    def scale(self) -> int:
+        if self.signal_type == SignalType.ST8T:
+            return 2**7
+
+        if self.signal_type == SignalType.ST16T:
+            return 2**15
+
+        if self.signal_type == SignalType.ST32T:
+            return 2**31
+
+        return 1
+
+    def items_per_sample(self):
+        if self.is_complex():
+            return 2
+
+        return 1

@@ -1,8 +1,10 @@
-import numpy as np
-from numpy import array as nparray
 from numpy import exp, pi
 from scipy.signal import fftconvolve
-from root_raised_cosine_filter_generator import root_raised_cosine_filter_generator
+
+import numpy as np
+
+from .root_raised_cosine_filter_generator import root_raised_cosine_filter_generator
+from .save_signal import savesig
 
 def generate_write_signal(ofile: str,
                           sample_type: str="32f",
@@ -11,7 +13,7 @@ def generate_write_signal(ofile: str,
                           con_size: int=4,
                           num_syms: int=10000,
                           samples_per_sym: int=2,
-                          beta: float=0.25) -> nparray:
+                          beta: float=0.25) -> np.array:
     '''
     Generate a QAM signal and write to file
 
@@ -90,129 +92,4 @@ def generate_write_signal(ofile: str,
         signal = signal * exp(2j*samples_per_sym/4*np.arange(0,len(signal)))
         signal = signal.real
 
-    savesig(ofile,signal,sample_type,endian,data_type,'w',0,1)
-
-def savesig(ofile, sig, sample_type, endian='b', data_type='r', mode='w', trunc=0, verbose=0):
-    """
-    Function to use numpy package to write PCM data.
-    Writable data types are 8t, 16t, 32f
-    Endian options: l=little, b=big
-    Data type options: r=real, c=complex
-    Mode: w=write, a=append
-    Trunc: 0=True Zero, 1=True One (symmetric)
-    Returns number of samples written if successful
-    Returns -1 is unsuccessful
-    """
-    # Set the data type to numpy recognizable strings
-    if sample_type == '8t':
-        dtype = 'u1'
-        mult = 2**7
-    elif sample_type == '16t':
-        dtype = 'u2'
-        mult = 2**15
-    elif sample_type == '32t':
-        dtype = 'u4'
-        mult = 2**31
-    elif sample_type == '64t':
-        dtype = 'u8'
-        mult = 2**63
-    elif sample_type == '32f':
-        dtype = 'f4'
-        mult = 1
-    elif sample_type == '64f':
-        dtype = 'f8'
-        mult = 1
-    else:
-        print("Function savesig: Unrecognized data type: {}".format(sample_type))
-        return -1
-
-    # Set endian-ness in numpy recognizable way
-    if endian == 'b':
-        dtype = ">" + dtype
-    elif endian == 'l':
-        dtype = "<" + dtype
-    else:
-        print("Function savesig: Unrecognized endian type: {}".format(endian))
-        return -1
-    # Set multiplicative factor to double the number of samples for complex data
-    if data_type == 'r':
-        m_fact = 1
-    elif data_type == 'c':
-        m_fact = 2
-    else:
-        print("Function savesig: Unrecognized data type: {}".format(data_type))
-        return -1
-    # Check mode
-    if mode not in ("a","w"):
-        print("Function savesig: Unrecognized mode: {}".format(mode))
-        return -1
-
-    # Touch output file
-    if len(sig) == 0:
-        fid = open(ofile, mode)
-        fid.close()
-        return 0
-
-    # Two's complement sample types
-    if sample_type in ("8t","16t","32t","64t"):
-        # Complex
-        if data_type == 'c':
-            # Turn list of complex numbers to list of floats
-            sigflat = np.array([mult*sig.real,mult*sig.imag]).flatten("F")
-        else:
-            sigflat = np.copy(mult*sig)
-
-        # Count how many will be clipped below
-        clip = len(np.argwhere(sigflat<-1*mult).flatten())
-        # Clipping values that are too low
-        sigflat = np.where(sigflat < -1*mult, -1*mult, sigflat)
-
-        # Count how many will be clipped above
-        clip += len(np.argwhere(sigflat>=mult).flatten())
-        # Clipping values that are too high
-        sigflat = np.where(sigflat >= mult, mult-1, sigflat)
-
-        # Map floats to ints according to truncating method
-        if trunc == 0:
-            # Round to nearest integer
-            sigint = np.array(np.round(sigflat),"int")
-        elif trunc == 1:
-            sigint = np.array(sigflat,"int")
-
-        # Modulo 2^8 or 2^16 to create two's complement
-        sigint = np.remainder(sigint,2*mult)
-        # Cast as unsigned integer
-        sigint = np.array(sigint,dtype)
-        #print(sigint.dtype)
-
-        # Open file handle
-        mode = mode + "b"
-        fid = open(ofile, mode)
-        # Write samples
-        sigint.tofile(fid,"",dtype)
-        # Close file handle
-        fid.close()
-        numwritten = len(sigint)//m_fact
-
-    if sample_type in ("32f","64f"):
-        # Open file handle
-        fid = open(ofile, mode)
-        if data_type == 'c':
-            # Cast sample as the desired data type
-            sig2 = np.array([sig.real,sig.imag],dtype).flatten("F")
-        else:
-            sig2 = np.array(sig,dtype)
-        # Write samples
-        sig2.tofile(fid,"",dtype)
-        fid.close()
-        numwritten = len(sig2)//m_fact
-        clip = 0
-
-    # Verbose output
-    if verbose >= 1:
-        if data_type == 'c':
-            print(numwritten,"complex samples written,",clip,"floats were clipped")
-        else:
-            print(numwritten,"real samples written,",clip,"floats were clipped")
-
-    return numwritten
+    savesig(ofile, signal, sample_type, data_type, endian)

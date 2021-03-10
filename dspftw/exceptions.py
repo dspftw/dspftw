@@ -17,3 +17,6 @@ class NumberSpaceException(DSPFTWException):
 
 class SignalTypeException(DSPFTWException):
     pass
+
+class WriteModeException(DSPFTWException):
+    pass
