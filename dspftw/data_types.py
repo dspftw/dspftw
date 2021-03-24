@@ -6,11 +6,11 @@ from .endianness import Endianness, normalize_endianness
 from .exceptions import DataTypeException
 
 class DataType(Enum):
-    U8 = 'u8'
+    U8  = 'u8'
     U16 = 'u16'
     U32 = 'u32'
     U64 = 'u64'
-    I8 = 'i8'
+    I8  = 'i8'
     I16 = 'i16'
     I32 = 'i32'
     I64 = 'i64'
@@ -58,4 +58,4 @@ class FullDataType:
         self.endianness: Endianness = normalize_endianness(endianness)
 
     def numpy_dtype(self) -> str:
-        return self.endianness + self.data_type
+        return self.endianness.value + self.data_type.value

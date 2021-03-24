@@ -9,11 +9,11 @@ from .endianness import Endianness, normalize_endianness
 from .exceptions import NumberSpaceException, SignalTypeException
 
 class SignalType(Enum):
-    ST8T = auto()
-    ST16T = auto()
-    ST32T = auto()
-    ST32F = auto()
-    ST64F = auto()
+    ST8T  = 'b'
+    ST16T = 'i2'
+    ST32T = 'i4'
+    ST32F = 'f4'
+    ST64F = 'f8'
 
 class NumberSpace(Enum):
     REAL = auto()
@@ -57,34 +57,7 @@ class FullSignalType:
         self.endianness: Endianness = normalize_endianness(endianness)
 
     def numpy_dtype(self) -> str:
-        if self.signal_type == SignalType.ST8T:
-            return 'b'
-
-        if self.signal_type == SignalType.ST16T and self.endianness == Endianness.LITTLE:
-            return '<i2'
-
-        if self.signal_type == SignalType.ST16T and self.endianness == Endianness.BIG:
-            return '>i2'
-
-        if self.signal_type == SignalType.ST32T and self.endianness == Endianness.LITTLE:
-            return '<i4'
-
-        if self.signal_type == SignalType.ST32T and self.endianness == Endianness.BIG:
-            return '>i4'
-
-        if self.signal_type == SignalType.ST32F and self.endianness == Endianness.LITTLE:
-            return '<f4'
-
-        if self.signal_type == SignalType.ST32F and self.endianness == Endianness.BIG:
-            return '>f4'
-
-        if self.signal_type == SignalType.ST64F and self.endianness == Endianness.LITTLE:
-            return '<f8'
-
-        if self.signal_type == SignalType.ST64F and self.endianness == Endianness.BIG:
-            return '>f8'
-
-        raise SignalTypeException('Could not determine numpy dtype')
+        return self.endianness.value + self.signal_type.value
 
     def count(self, count: int) -> int:
         if count == -1:
