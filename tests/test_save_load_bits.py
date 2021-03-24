@@ -24,3 +24,18 @@ class SaveLoadBitsTests(unittest.TestCase):
 
             for i in range(len(bits)):
                 self.assertEqual(bits[i], loaded_bits[i])
+
+    def test_save_load_unpacked(self):
+        with TemporaryDirectory() as tempdir:
+            temp_path = Path(tempdir)
+            temp_file = temp_path.joinpath('bits_file')
+
+            bits = [choice((True, False)) for i in range(987)]  # length not a multiple of 8
+
+            num_bytes_written = dspftw.save_bits(str(temp_file), bits, packed=False)
+            self.assertEqual(num_bytes_written, len(bits))
+
+            loaded_bits = dspftw.load_bits(str(temp_file), packed=False)
+
+            for i in range(len(loaded_bits)):
+                self.assertEqual(bits[i], loaded_bits[i])

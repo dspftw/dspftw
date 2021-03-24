@@ -32,7 +32,7 @@ def pack_bools_to_bytes(bools: Iterable[bool]) -> Iterable[bytes]:
     if offset % 8 != 0:
         yield current_byte.to_bytes(1, 'big')
 
-def save_bits(file_name: str, bool_array: nparray, pack_bits=True) -> int:
+def save_bits(file_name: str, bool_array: nparray, packed=True) -> int:
     '''
     Save bits to a file from a bool array.
 
@@ -42,7 +42,7 @@ def save_bits(file_name: str, bool_array: nparray, pack_bits=True) -> int:
         The name of the file to save.
     bool_array: numpy.array
         The bool array.
-    pack_bits: bool
+    packed: bool
         Whether to pack the bits into bytes.
         Defaults to True.
 
@@ -52,7 +52,7 @@ def save_bits(file_name: str, bool_array: nparray, pack_bits=True) -> int:
         writer = BufferedWriter(bit_file)
         count = 0
 
-        if pack_bits:
+        if packed:
             for byte in pack_bools_to_bytes(bool_array):
                 writer.write(byte)
                 count += 1
