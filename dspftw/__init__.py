@@ -1,5 +1,6 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
+from .complex_sinusoid import complex_sinusoid
 from .constellation_plot import conplot, constellation_plot
 from .data_types import FullDataType
 from .exceptions import DataTypeException, EndiannessException, NumberSpaceException, SignalTypeException, WriteModeException
