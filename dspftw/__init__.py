@@ -15,3 +15,5 @@ from .save_signal import save_signal, savesig
 from .signal_correlation import sigcorr, signal_correlation
 from .signal_types import FullSignalType
 from .truncation import true_one, true_zero
+from .root_raised_cosine_filter_generator import root_raised_cosine_filter_generator, rrcfiltgen
+from .root_raised_cosine import root_raised_cosine, rrcfunct
