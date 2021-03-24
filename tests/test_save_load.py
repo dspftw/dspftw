@@ -21,7 +21,8 @@ class SaveLoadTests(unittest.TestCase):
             loaded_signal = dspftw.load_signal(str(file_path), signal_type, 'cplx', endianness)
 
             for i in range(len(loaded_signal)):
-                self.assertEqual(loaded_signal[i], signal[i])
+                self.assertAlmostEqual(loaded_signal[i].real, signal[i].real, places=1)
+                self.assertAlmostEqual(loaded_signal[i].imag, signal[i].imag, places=1)
 
     def test_save_load(self):
         signal = dspftw.complex_sinusoid(A=1, f=10, t=linspace(1, 10, num=10), phi=0)

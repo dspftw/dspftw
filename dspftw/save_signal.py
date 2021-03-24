@@ -69,7 +69,7 @@ def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: s
         else:
             sigout = np.array(sig, full_signal_type.numpy_dtype())
 
-    with open(file_name, write_mode) as fid:
+    with open(file_name, write_mode.value) as fid:
         sigout.tofile(fid, '', full_signal_type.numpy_dtype())
 
     num_written = len(sigout) // full_signal_type.items_per_sample()
