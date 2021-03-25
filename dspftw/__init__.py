@@ -18,3 +18,4 @@ from .signal_types import FullSignalType
 from .truncation import true_one, true_zero
 from .root_raised_cosine_filter_generator import root_raised_cosine_filter_generator, rrcfiltgen
 from .root_raised_cosine import root_raised_cosine, rrcfunct
+from .generate_qam import generate_qam
