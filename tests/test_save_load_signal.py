@@ -9,7 +9,7 @@ from numpy import linspace
 
 import dspftw
 
-class SaveLoadTests(unittest.TestCase):
+class SaveLoadSignalTests(unittest.TestCase):
     def try_save_load(self, signal, signal_type, endianness):
         with TemporaryDirectory() as tempdir:
             temp_path = Path(tempdir)
