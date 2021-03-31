@@ -20,3 +20,5 @@ from .signal_types import FullSignalType
 from .truncation import true_one, true_zero
 from .root_raised_cosine_filter_generator import root_raised_cosine_filter_generator, rrcfiltgen
 from .root_raised_cosine import root_raised_cosine, rrcfunct
+from .generate_random_qpsk import generate_random_qpsk
+from .test_qpsk_modulation import test_qpsk_modulation
