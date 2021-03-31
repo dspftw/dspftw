@@ -6,6 +6,7 @@ from .data_types import FullDataType
 from .exceptions import DataTypeException, EndiannessException, NumberSpaceException, SignalTypeException, WriteModeException
 from .exceptions import DSPFTWException
 from .filename_load import filename_load, fnload
+from .generate_qam import generate_qam
 from .load_bits import load_bits, loadbits
 from .load_data import load_data, loaddata
 from .load_signal import load_signal, loadsig
@@ -19,4 +20,3 @@ from .signal_types import FullSignalType
 from .truncation import true_one, true_zero
 from .root_raised_cosine_filter_generator import root_raised_cosine_filter_generator, rrcfiltgen
 from .root_raised_cosine import root_raised_cosine, rrcfunct
-from .generate_qam import generate_qam
