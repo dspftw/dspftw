@@ -6,16 +6,17 @@ from .endianness import Endianness, normalize_endianness
 from .exceptions import DataTypeException
 
 class DataType(Enum):
-    U8  = 'u8'
-    U16 = 'u16'
-    U32 = 'u32'
-    U64 = 'u64'
-    I8  = 'i8'
-    I16 = 'i16'
-    I32 = 'i32'
-    I64 = 'i64'
-    F32 = 'f32'
-    F64 = 'f64'
+    U8   = 'u1'
+    U16  = 'u2'
+    U32  = 'u4'
+    U64  = 'u8'
+    I8   = 'i1'
+    I16  = 'i2'
+    I32  = 'i4'
+    I64  = 'i8'
+    F32  = 'f4'
+    F64  = 'f8'
+    F128 = 'f16'
 
 def normalize_data_type(data_type: str) -> DataType:
     data_type = data_type.strip().lower()
@@ -49,6 +50,9 @@ def normalize_data_type(data_type: str) -> DataType:
 
     if data_type in ('f64', 'float64'):
         return DataType.F64
+
+    if data_type in ('f128', 'float128'):
+        return DataType.F128
 
     raise DataTypeException('Unknown data type {}'.format(data_type))
 

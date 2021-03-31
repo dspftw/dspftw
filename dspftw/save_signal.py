@@ -45,7 +45,7 @@ def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: s
         Truncation function. or dspftw.true_zero or dspftw.true_one.
         Default is true_zero.
 
-    Returns number of samples written and number of samples clipped.
+    Returns a tuple of the number of samples written and the number of samples clipped.
     '''
 
     full_signal_type = FullSignalType(signal_type, number_space, endianness)
@@ -69,8 +69,8 @@ def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: s
         else:
             sigout = np.array(sig, full_signal_type.numpy_dtype())
 
-    with open(file_name, write_mode.value) as fid:
-        sigout.tofile(fid, '', full_signal_type.numpy_dtype())
+    with open(file_name, write_mode.value) as outfile:
+        sigout.tofile(outfile)
 
     num_written = len(sigout) // full_signal_type.items_per_sample()
 
