@@ -12,6 +12,7 @@ from .load_data import load_data, loaddata
 from .load_signal import load_signal, loadsig
 from .plot_complex import plotc, plot_complex
 from .plot_3d_complex import plot_3d_complex, plot3c
+from .plot_slider import plot_slider, plots
 from .save_bits import save_bits, savebits
 from .save_data import save_data, savedata
 from .save_signal import save_signal, savesig
