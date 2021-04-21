@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+tox = "*"
 
 [packages]
 numpy = "*"
