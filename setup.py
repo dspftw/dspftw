@@ -15,7 +15,7 @@ setup(
     name='dspftw',
     version=VERSION,
     author='Bill Allen',
-    author_email='photo.allen@gmail.com',
+    author_email='billallen256@gmail.com',
     description='Utilities for digital signal processing (DSP) fundamentals.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -24,7 +24,7 @@ setup(
     url='https://github.com/dspftw/dspftw',
     packages=['dspftw'],
     package_data={'dspftw': ['doc/*']},
-    install_requires=['matplotlib', 'numpy', 'scipy'],
+    install_requires=['numpy', 'scipy'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Topic :: Scientific/Engineering',
