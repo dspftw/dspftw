@@ -3,6 +3,7 @@
 from .exceptions import DSPFTWException
 
 import matplotlib.pyplot as plt
+import numpy as np
 from ipywidgets import interact
 import ipywidgets as widgets
 
