@@ -2,6 +2,7 @@
 
 from .complex_sinusoid import complex_sinusoid
 from .data_types import FullDataType
+from .decimal_convert_to_base import decimal_convert_to_base, num2base
 from .exceptions import DataTypeException, EndiannessException, NumberSpaceException, SignalTypeException, WriteModeException
 from .exceptions import DSPFTWException
 from .filename_load import filename_load, fnload
@@ -19,3 +20,4 @@ from .truncation import true_one, true_zero
 from .root_raised_cosine_filter_generator import root_raised_cosine_filter_generator, rrcfiltgen
 from .root_raised_cosine import root_raised_cosine, rrcfunct
 from .test_qpsk_modulation import test_qpsk_modulation
+from .vector_power import vector_power, vecpow
