@@ -70,7 +70,7 @@ def plot_slider(*args, **kwargs) -> plt.Figure:
             ax.autoscale_view(True, True, True)
         fig.canvas.draw()
         
-    interact(plot_funct, col_num = widgets.IntSlider(value=0, min=0, max=num_cols-1, step=1))
+    interact(plot_funct, col_num = widgets.IntSlider(value=0, min=0, max=num_cols[0]-1, step=1))
             
 
 
