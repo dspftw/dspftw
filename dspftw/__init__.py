@@ -7,11 +7,12 @@ from .exceptions import DataTypeException, EndiannessException, NumberSpaceExcep
 from .exceptions import DSPFTWException
 from .filename_load import filename_load, fnload
 from .generate_qam import generate_qam
+from .generate_random_qpsk import generate_random_qpsk
 from .load_bits import load_bits, loadbits
 from .load_data import load_data, loaddata
 from .load_signal import load_signal, loadsig
-from .plot_complex import plotc, plot_complex
 from .plot_3d_complex import plot_3d_complex, plot3c
+from .plot_complex import plotc, plot_complex
 from .plot_slider import plot_slider, plots
 from .save_bits import save_bits, savebits
 from .save_data import save_data, savedata
@@ -21,5 +22,4 @@ from .signal_types import FullSignalType
 from .truncation import true_one, true_zero
 from .root_raised_cosine_filter_generator import root_raised_cosine_filter_generator, rrcfiltgen
 from .root_raised_cosine import root_raised_cosine, rrcfunct
-from .generate_random_qpsk import generate_random_qpsk
 from .test_qpsk_modulation import test_qpsk_modulation
