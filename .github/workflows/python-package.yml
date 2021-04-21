@@ -31,9 +31,6 @@ jobs:
     - name: Lint with pylint
       run: |
         pylint --disable=C,R -s no dspftw
-    - name: Install Octave
-      run: |
-        sudo apt install -y octave
     - name: Test with unittest
       run: |
         python -m unittest discover tests/
