@@ -1,0 +1,41 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+authors = ["Bill Allen <billallen256@gmail.com>"]
+description = "Starting points and helper functions for learning digital signal processing."
+homepage = "http://github.com/dspftw/dspftw"
+license = "MIT"
+name = "dspftw"
+readme = "README.md"
+version = "0.0.1"
+
+[tool.poetry.dependencies]
+python = "^3.7,<3.10"
+numpy = "^1.20.0"
+scipy = "^1.6.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py38
+isolated_build = true
+
+[gh-actions]
+python =
+	3.8: py38
+	3.9: py39
+
+[testenv]
+recreate = true
+changedir = tests
+deps =
+	pylint
+commands =
+	python -m pylint --disable=C,R -s no dspftw
+	python -m unittest discover
+"""
