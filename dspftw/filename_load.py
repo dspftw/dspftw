@@ -73,12 +73,22 @@ def filename_load_signal(filename: str, count: int, offset: int) -> Tuple[nparra
                          start_sample=offset)
 
     metadata = {
+        'filename': filename,
         'sample_rate': get_sample_rate(filename),
     }
 
     return signal, metadata
 
-def filename_load(filename: str, count: int=-1, offset: int=0) -> nparray:
+def filename_load_bits(filename: str, count: int, offset: int) -> Tuple[nparray, Dict[str, Any]]:
+    bits = load_bits(filename, count=count, offset=offset)
+
+    metadata = {
+        'filename': filename,
+    }
+
+    return bits, metadata
+
+def filename_load(filename: str, count: int=-1, offset: int=0) -> Tuple[nparray, Dict[str, Any]]:
     '''
     Automatically loads a file based on the information in its filename.
 
@@ -100,7 +110,7 @@ def filename_load(filename: str, count: int=-1, offset: int=0) -> nparray:
         return filename_load_signal(filename, count, offset)
 
     if file_type == FileType.BITS:
-        return load_bits(filename, count=count, offset=offset)
+        return filename_load_bits(filename, count, offset)
 
     raise FileNameException('Could not determine how to load {}'.format(filename))
 
