@@ -32,10 +32,9 @@ python =
 
 [testenv]
 recreate = true
-changedir = tests
 deps =
 	pylint
 commands =
 	python -m pylint --disable=C,R -s no dspftw
-	python -m unittest discover
+	python -m unittest discover tests
 """

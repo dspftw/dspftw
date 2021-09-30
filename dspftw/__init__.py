@@ -11,7 +11,7 @@ from .generate_random_qpsk import generate_random_qpsk
 from .load_bits import load_bits, loadbits
 from .load_data import load_data, loaddata
 from .load_signal import load_signal, loadsig
-from .save_bits import save_bits, savebits
+from .save_bits import save_bits, savebits, save_bits_to
 from .save_data import save_data, savedata
 from .save_signal import save_signal, savesig
 from .signal_correlation import sigcorr, signal_correlation
