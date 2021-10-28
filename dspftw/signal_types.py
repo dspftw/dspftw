@@ -65,8 +65,23 @@ class FullSignalType:
 
         return count * self.items_per_sample()
 
+    def bytes_per_item(self):
+        if self.signal_type == SignalType.ST16T:
+            return 2
+
+        if self.signal_type == SignalType.ST32T:
+            return 4
+
+        if self.signal_type == SignalType.ST32F:
+            return 4
+
+        if self.signal_type == SignalType.ST64F:
+            return 8
+
+        return 1
+
     def offset(self, offset: int) -> int:
-        return offset * self.items_per_sample()
+        return offset * self.items_per_sample() * self.bytes_per_item()
 
     def post_load(self, data: np.array) -> np.array:
         scaled_signal = data / self.scale()
