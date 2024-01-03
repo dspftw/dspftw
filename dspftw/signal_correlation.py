@@ -1,6 +1,7 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
-# Cross-Correlation with normalization set to default
+''' Cross-Correlation with normalization set to default
+'''
 
 from scipy.signal import convolve, correlate
 
