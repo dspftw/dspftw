@@ -83,11 +83,11 @@ def test_qpsk_modulation(ifile_samples: str,
 
     # Compare symbol_indices and demod_indices
     if len(symbol_indices) != len(demod_indices):
-        raise DSPFTWException('symbol_indices length != demod_indices length; {} != {}'.format(len(symbol_indices), len(demod_indices)))
+        raise DSPFTWException('symbol_indices length != demod_indices length; {len(symbol_indices)} != {len(demod_indices)}")
 
     diff_count = 0
 
-    for idx in range(len(symbol_indices)):
+    for idx in np.arange(len(symbol_indices)):
         if symbol_indices[idx] != demod_indices[idx]:
             diff_count += 1
 

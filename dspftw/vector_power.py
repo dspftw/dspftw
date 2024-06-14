@@ -1,3 +1,5 @@
+# vim: expandtab tabstop=4 shiftwidth=4
+
 import numpy as np
 from numpy import array as nparray
 

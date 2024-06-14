@@ -54,7 +54,7 @@ def normalize_data_type(data_type: str) -> DataType:
     if data_type in ('f128', 'float128'):
         return DataType.F128
 
-    raise DataTypeException('Unknown data type {}'.format(data_type))
+    raise DataTypeException(f"Unknown data type {data_type}")
 
 class FullDataType:
     def __init__(self, data_type: str, endianness: str) -> None:

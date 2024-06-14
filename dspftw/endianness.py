@@ -17,4 +17,4 @@ def normalize_endianness(endianness: str) -> Endianness:
     if endianness in ('b', 'big'):
         return Endianness.BIG
 
-    raise EndiannessException('Unknown endianness "{}"'.format(endianness))
+    raise EndiannessException(f"Unknown endianness {endianness}")
