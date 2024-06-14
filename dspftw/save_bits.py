@@ -1,8 +1,10 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
+from typing import IO
 from numpy import array as nparray
 from numpy import packbits
-from typing import IO
+
+from .writemode import normalize_write_mode
 
 def save_bits_to(writable: IO, bool_array: nparray, packed=True) -> int:
     '''
@@ -39,7 +41,7 @@ def save_bits_to(writable: IO, bool_array: nparray, packed=True) -> int:
     writable.write(bytes_to_write)
     return len(bytes_to_write)
 
-def save_bits(file_name: str, bool_array: nparray, packed=True) -> int:
+def save_bits(file_name: str, bool_array: nparray, packed=True, write_mode: str='w') -> int:
     '''
     Save bits to a file from a bool array.
 
@@ -51,12 +53,16 @@ def save_bits(file_name: str, bool_array: nparray, packed=True) -> int:
         The bool array.
     packed: bool
         Whether to pack the bits into bytes.
-        Defaults to True.
-
+        Default is True.
+    write_mode: str
+        'w' for new or overwrite. 'a' for append.
+        Default is w
     Returns the number of bytes written.
     '''
 
-    with open(file_name, 'wb') as bit_file:
+    write_mode = normalize_write_mode(write_mode)
+
+    with open(file_name, write_mode.value) as bit_file:
         return save_bits_to(bit_file, bool_array, packed)
 
 def savebits(*args, **kwargs) -> int:

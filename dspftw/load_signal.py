@@ -2,12 +2,13 @@
 
 from sys import byteorder
 
+from typing import Any
 from numpy import array as nparray
 from numpy import fromfile
 
 from .signal_types import FullSignalType
 
-def load_signal(file_name: str, signal_type: str, number_space: str, endianness: str=byteorder, num_samples: int=-1, start_sample: int=0) -> nparray:
+def load_signal(file_name: str, signal_type: str, number_space: str, endianness: str=byteorder, num_samples: int=-1, start_sample: int=0, rounding: Any=0) -> nparray:
     '''
     Loads a signal from a file in float or two's compliment, real or complex format.
 
@@ -26,10 +27,12 @@ def load_signal(file_name: str, signal_type: str, number_space: str, endianness:
         The number of samples to load from the file.
     start_sample:
         The number of samples to skip before loading.
+    rounding:
+        Twos-complement rounding: 0=Asymmetric/Exact Zero, 1=True One.
 
     Returns a numpy array.
     '''
-    full_signal_type = FullSignalType(signal_type, number_space, endianness)
+    full_signal_type = FullSignalType(signal_type, number_space, endianness,rounding)
     data = fromfile(file_name,
                     dtype=full_signal_type.numpy_dtype(),
                     offset=full_signal_type.offset(start_sample),

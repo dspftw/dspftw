@@ -1,18 +1,18 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
 from io import BufferedReader
-from numpy import array as nparray
 from typing import Iterable
+from numpy import array as nparray
 
-def read_to_bools(reader: BufferedReader) -> Iterable[bool]:
-    for byte in reader.read():
+def read_to_bools(reader: BufferedReader, num_bytes: int = -1) -> Iterable[bool]:
+    for byte in reader.read(num_bytes):
         if byte == 0:
             yield False
         else:
             yield True
 
-def unpack_to_bools(reader: BufferedReader) -> Iterable[bool]:
-    for byte in reader.read():
+def unpack_to_bools(reader: BufferedReader, num_bytes: int = -1) -> Iterable[bool]:
+    for byte in reader.read(num_bytes):
         for offset in range(8):
             yield byte & (0x80>>offset) == 0x80 >> offset
 
@@ -22,7 +22,10 @@ def load_packed_bits(file_name: str, count: int=-1, offset: int=0) -> nparray:
         bit_file.seek(byte_offset)
         bit_offset_into_byte = offset % 8
         reader = BufferedReader(bit_file)
-        bools = unpack_to_bools(reader)
+        if count == -1:
+            bools = unpack_to_bools(reader, count)
+        else:
+            bools = unpack_to_bools(reader, count//8+2)
         bool_array = nparray(list(bools), dtype=bool)
 
     if count == -1:
@@ -34,7 +37,7 @@ def load_unpacked_bits(file_name: str, count: int=-1, offset: int=0) -> nparray:
     with open(file_name, 'rb') as bit_file:
         bit_file.seek(offset)
         reader = BufferedReader(bit_file)
-        bools = read_to_bools(reader)
+        bools = read_to_bools(reader, count)
         bool_array = nparray(list(bools), dtype=bool)
 
         if count == -1:

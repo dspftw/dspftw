@@ -1,11 +1,12 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
 from enum import Enum, auto
-from typing import Tuple
+from typing import Any, Tuple
 
 import numpy as np
 
 from .endianness import Endianness, normalize_endianness
+from .rounding import Rounding, normalize_rounding
 from .exceptions import NumberSpaceException, SignalTypeException
 
 class SignalType(Enum):
@@ -37,7 +38,7 @@ def normalize_signal_type(signal_type: str) -> SignalType:
     if signal_type in ('64f', '64fl', '64fr'):
         return SignalType.ST64F
 
-    raise SignalTypeException('Unknown signal type "{}"'.format(signal_type))
+    raise SignalTypeException(f"Unknown signal type {signal_type}")
 
 def normalize_number_space(number_space: str) -> NumberSpace:
     number_space = number_space.strip().lower()
@@ -48,13 +49,14 @@ def normalize_number_space(number_space: str) -> NumberSpace:
     if number_space in ('r', 'real'):
         return NumberSpace.REAL
 
-    raise NumberSpaceException('Unknown number space "{}"'.format(number_space))
+    raise NumberSpaceException(f"Unknown number space {number_space}")
 
 class FullSignalType:
-    def __init__(self, signal_type: str, number_space: str, endianness: str) -> None:
+    def __init__(self, signal_type: str, number_space: str, endianness: str, rounding: Any=0) -> None:
         self.signal_type: SignalType = normalize_signal_type(signal_type)
         self.number_space: NumberSpace = normalize_number_space(number_space)
         self.endianness: Endianness = normalize_endianness(endianness)
+        self.rounding: Rounding = normalize_rounding(rounding)
 
     def numpy_dtype(self) -> str:
         return self.endianness.value + self.signal_type.value
@@ -86,6 +88,9 @@ class FullSignalType:
     def post_load(self, data: np.array) -> np.array:
         scaled_signal = data / self.scale()
 
+        if self.is_twos_compliment_signal_type() and self.rounding == Rounding.TRUEONE:
+            scaled_signal += 1 / (2*self.scale())
+
         if self.is_complex():
             return scaled_signal[0::2] + scaled_signal[1::2]*1j
 
@@ -98,6 +103,23 @@ class FullSignalType:
             sigflat = np.array([mult*signal.real, mult*signal.imag]).flatten('F')
         else:
             sigflat = np.copy(mult*signal)
+
+        # Count how many will be clipped below
+        clip_count = len(np.argwhere(sigflat < -1*mult).flatten())
+        # Clipping values that are too low
+        sigflat = np.where(sigflat < -1*mult, -1*mult, sigflat)
+
+        # Count how many will be clipped above
+        clip_count += len(np.argwhere(sigflat>=mult).flatten())
+        # Clipping values that are too high
+        sigflat = np.where(sigflat >= mult, mult-1, sigflat)
+
+        return sigflat, clip_count
+
+    def clip_real_signal(self, signal: np.array) -> Tuple[np.array, int]:
+        mult = self.scale()
+
+        sigflat = np.copy(mult*signal)
 
         # Count how many will be clipped below
         clip_count = len(np.argwhere(sigflat < -1*mult).flatten())

@@ -7,18 +7,32 @@ from scipy.signal import convolve, correlate
 
 import numpy as np
 
-def signal_correlation(in1, in2, norm=True):
-    '''Cross-correlates two arrays and normalizes the output'''
-    arrL = in1
-    arrS = in2
+def signal_correlation(in1: np.array, in2: np.array, norm=True):
+    '''
+    Cross-correlates two arrays and normalizes the output
+    Parameters
+    ----------
+    in1: 
+        numpy.array containing first signal
+    in2:
+        numpy.array containing second signal
+    norm: bool
+        flag to normalize the output.
+        default is True
+
+    Returns the correlation vector as a numpy array.
+    '''
+
+    arr_l = in1
+    arr_s = in2
     # If norm is set to False, unnormalized output will be returned
-    outArr = correlate(arrL, arrS, mode='full')
+    out_arr = correlate(arr_l, arr_s, mode='full')
     # Default output is set to normalized
     if norm:
-        sPow = np.sqrt(np.sum(arrS*arrS.conj()))
-        lPow = np.sqrt(convolve(arrL*arrL.conj(), np.ones(len(arrS)), mode='full'))*sPow
-        outArr = outArr/lPow
-    return outArr
+        s_pow = np.sqrt(np.sum(arr_s*arr_s.conj()))
+        l_pow = np.sqrt(convolve(arr_l*arr_l.conj(), np.ones(len(arr_s)), mode='full'))*s_pow
+        out_arr = out_arr/l_pow
+    return out_arr
 
 def sigcorr(*args, **kwargs):
     '''

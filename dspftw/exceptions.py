@@ -20,3 +20,7 @@ class SignalTypeException(DSPFTWException):
 
 class WriteModeException(DSPFTWException):
     pass
+
+class RoundingException(DSPFTWException):
+    pass
+

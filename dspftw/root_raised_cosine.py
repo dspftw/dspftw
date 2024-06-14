@@ -3,7 +3,7 @@
 from numpy import pi, sin, cos, where, zeros
 from numpy import array as nparray
 
-def root_raised_cosine(time_array: nparray, Ts: float, beta: float=0.25) -> nparray:
+def root_raised_cosine(time_array: nparray, spd: float, beta: float=0.25) -> nparray:
     '''
     Compute the values of the root raised cosine function at points in time_array.
 
@@ -11,7 +11,7 @@ def root_raised_cosine(time_array: nparray, Ts: float, beta: float=0.25) -> npar
     ----------
     time_array: nparray
         Input time values.
-    Ts: float
+    spd: float
         Symbol period in seconds.  Reciprocal of the symbol rate.
     beta: float
         Roll off factor.  In the interval (0,1]
@@ -21,24 +21,26 @@ def root_raised_cosine(time_array: nparray, Ts: float, beta: float=0.25) -> npar
     '''
 
     # Define threshhold for zero
-    zr = 10**-10
+    zero_thresh = 10**-10
 
     # Create output array
     func_val = zeros(len(time_array))
 
     # Initial denominator values
-    denominator = pi*time_array/Ts*(1-16*(beta**2)*(time_array**2)/(Ts**2))
+    denominator = pi*time_array/spd*(1-16*(beta**2)*(time_array**2)/(spd**2))
 
     # Compute output at points where denominator1 is not zero
-    nzidx = where(abs(denominator) >= zr)
-    numerator1 = (sin(pi*time_array[nzidx]/Ts*(1-beta)) + 4*beta*time_array[nzidx]/Ts*cos(pi*time_array[nzidx]/Ts*(1+beta)))
+    nzidx = where(abs(denominator) >= zero_thresh)
+    vals=time_array[nzidx]
+    numerator1 = (sin(pi*vals/spd*(1-beta)) + 4*beta*vals/spd*cos(pi*vals/spd*(1+beta)))
     denominator1 = denominator[nzidx]
     func_val[nzidx] = numerator1/denominator1
 
     # Compute output at points where denominator1 is zero
-    zidx = where(abs(denominator) < zr)
-    numerator2 = pi*(1-beta)*cos(pi*time_array[zidx]*(1-beta)/Ts)/Ts + 4*beta*cos(pi*time_array[zidx]*(1+beta)/Ts)/Ts - 4*pi*time_array[zidx]*beta*(1+beta)*sin(pi*time_array[zidx]*(1+beta)/Ts)/(Ts**2)
-    denominator2 = pi*((Ts**2)-48*(time_array[zidx]**2)*(beta**2))/(Ts**3)
+    zidx = where(abs(denominator) < zero_thresh)
+    vals=time_array[zidx]
+    numerator2 = pi*(1-beta)*cos(pi*vals*(1-beta)/spd)/spd + 4*beta*cos(pi*vals*(1+beta)/spd)/spd - 4*pi*vals*beta*(1+beta)*sin(pi*vals*(1+beta)/spd)/(spd**2)
+    denominator2 = pi*((spd**2)-48*(vals**2)*(beta**2))/(spd**3)
     func_val[zidx] = numerator2/denominator2
 
     return func_val

@@ -12,7 +12,8 @@ def root_raised_cosine_filter_generator(symbol_width: int, symbol_rate: float, s
     Parameters
     ----------
     symbol_width: int
-        Number of bauds wide for the output filter.  An odd integer will ensure the initial and final taps are at baud boundaries.
+        Number of bauds wide for the output filter.
+        An odd integer will ensure the initial and final taps are at baud boundaries.
     symbol_rate: float
         Symbol rate in Hz.
     sample_rate: float
@@ -25,10 +26,10 @@ def root_raised_cosine_filter_generator(symbol_width: int, symbol_rate: float, s
     '''
 
     # Set the symbol period
-    Ts = 1.0/symbol_rate
+    spd = 1.0/symbol_rate
 
     # Create the input time values
-    time_array = arange(-ceil((symbol_width/2.0)*Ts*sample_rate), ceil((symbol_width/2.0)*Ts*sample_rate+1), dtype=float)/sample_rate
+    time_array = arange(-ceil((symbol_width/2.0)*spd*sample_rate), ceil((symbol_width/2.0)*spd*sample_rate+1), dtype=float)/sample_rate
 
     # Create filter values
     if beta == 0:
@@ -37,13 +38,13 @@ def root_raised_cosine_filter_generator(symbol_width: int, symbol_rate: float, s
 
         # Define filter everywhere except center tap
         idx = append(arange((tlen-1)//2, dtype=int), arange((tlen-1)//2+1, tlen, dtype=int))
-        filter_val[idx] = sin(pi*time_array[idx]/Ts) / (pi*time_array[idx]/Ts)
+        filter_val[idx] = sin(pi*time_array[idx]/spd) / (pi*time_array[idx]/spd)
 
         # Define filter at center tap
         filter_val[(tlen-1)//2] = 1
 
     else:
-        filter_val = root_raised_cosine(time_array,Ts,beta)
+        filter_val = root_raised_cosine(time_array,spd,beta)
 
     return filter_val
 
