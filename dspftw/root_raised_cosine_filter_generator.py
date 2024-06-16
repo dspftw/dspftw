@@ -1,6 +1,7 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
-from numpy import pi, sin, ceil, append, arange, zeros
+from numpy import pi, sin, append, arange, zeros
+from numpy import ceil  # pylint: disable=no-name-in-module
 from numpy import array as nparray
 
 from .root_raised_cosine import root_raised_cosine

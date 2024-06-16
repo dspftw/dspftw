@@ -1,6 +1,7 @@
 # vim expandtab tabstop=4 shiftwidth=4
 
-from numpy import pi, sinc, sin, cos, ceil, arange, where, zeros
+from numpy import pi, sinc, sin, cos, arange, where, zeros
+from numpy import ceil  # pylint: disable=no-name-in-module
 from numpy import array as nparray
 
 def raised_cosine_filter_generator(symbol_width: int, symbol_rate: float, sample_rate: float, beta: float=0.25) -> nparray:
