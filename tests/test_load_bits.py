@@ -15,18 +15,22 @@ class LoadBitsTests(unittest.TestCase):
             tempfile.write_bytes(b'\x00\x01\x02\x03')
 
             bits = load_bits(str(tempfile.resolve()))
-            expecting = nparray([False, False, False, False,
-                                 False, False, False, False,
+            expecting = nparray(
+                [
+                    False, False, False, False,
+                    False, False, False, False,
 
-                                 False, False, False, False,
-                                 False, False, False,  True,
+                    False, False, False, False,
+                    False, False, False,  True,
 
-                                 False, False, False, False,
-                                 False, False,  True, False,
+                    False, False, False, False,
+                    False, False,  True, False,
 
-                                 False, False, False, False,
-                                 False, False,  True,  True,],
-                                dtype=bool)
+                    False, False, False, False,
+                    False, False,  True,  True,
+                ],
+                dtype=bool,
+            )
 
             self.assertEqual(len(bits), len(expecting))
 

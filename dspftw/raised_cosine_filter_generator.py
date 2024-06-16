@@ -28,10 +28,10 @@ def raised_cosine_filter_generator(symbol_width: int, symbol_rate: float, sample
     zero_thresh = 10**-10
 
     # Samples per baud
-    spb = sample_rate/symbol_rate
+    spb = sample_rate / symbol_rate
 
     # Create the input time values
-    time_array = arange(-ceil((symbol_width/2.0)*spb),ceil((symbol_width/2.0)*spb+1),dtype=float)/sample_rate
+    time_array = arange(-ceil((symbol_width/2.0)*spb), ceil((symbol_width/2.0)*spb+1), dtype=float) / sample_rate
 
     # Create the filter values
     if beta == 0:
@@ -56,6 +56,3 @@ def rcfiltgen(*args, **kwargs) -> nparray:
     Alias for raised_cosine_filter_generator.
     '''
     return raised_cosine_filter_generator(*args, **kwargs)
-
-
-

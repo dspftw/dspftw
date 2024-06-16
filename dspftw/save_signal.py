@@ -36,7 +36,7 @@ def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: s
     '''
 
     write_mode = normalize_write_mode(write_mode)
-    full_signal_type = FullSignalType(signal_type, number_space, endianness,rounding)
+    full_signal_type = FullSignalType(signal_type, number_space, endianness, rounding)
 
     if len(sig) == 0:
         sig = np.array([])
@@ -45,7 +45,7 @@ def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: s
 
         if full_signal_type.is_complex():
             # Flatten complex signals to real
-            sigflat = np.array([sig.real,sig.imag]).flatten("F")
+            sigflat = np.array([sig.real, sig.imag]).flatten("F")
         else:
             sigflat = np.array(sig).real
 
@@ -71,8 +71,10 @@ def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: s
 
         if full_signal_type.is_complex():
             # Flatten and cast sample as the desired data type
-            sigout = np.array([sig.real,sig.imag],
-                              full_signal_type.numpy_dtype()).flatten("F")
+            sigout = np.array(
+                [sig.real, sig.imag],
+                full_signal_type.numpy_dtype()
+            ).flatten("F")
         else:
             # Cast sample as the desired data type
             sigout = np.array(sig.real, full_signal_type.numpy_dtype())

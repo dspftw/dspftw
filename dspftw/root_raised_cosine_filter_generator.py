@@ -27,10 +27,10 @@ def root_raised_cosine_filter_generator(symbol_width: int, symbol_rate: float, s
     '''
 
     # Set the symbol period
-    spd = 1.0/symbol_rate
+    spd = 1.0 / symbol_rate
 
     # Create the input time values
-    time_array = arange(-ceil((symbol_width/2.0)*spd*sample_rate), ceil((symbol_width/2.0)*spd*sample_rate+1), dtype=float)/sample_rate
+    time_array = arange(-ceil((symbol_width/2.0)*spd*sample_rate), ceil((symbol_width/2.0)*spd*sample_rate+1), dtype=float) / sample_rate
 
     # Create filter values
     if beta == 0:
@@ -45,7 +45,7 @@ def root_raised_cosine_filter_generator(symbol_width: int, symbol_rate: float, s
         filter_val[(tlen-1)//2] = 1
 
     else:
-        filter_val = root_raised_cosine(time_array,spd,beta)
+        filter_val = root_raised_cosine(time_array, spd, beta)
 
     return filter_val
 

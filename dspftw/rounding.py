@@ -12,13 +12,13 @@ class Rounding(Enum):
 
 def normalize_rounding(rounding: Any) -> Rounding:
 
-    if isinstance(rounding,int):
+    if isinstance(rounding, int):
         if rounding == 0:
             return Rounding.TRUEZERO
         if rounding == 1:
             return Rounding.TRUEONE
 
-    if isinstance(rounding,str):
+    if isinstance(rounding, str):
         if rounding in ('0', 'zero'):
             return Rounding.TRUEZERO
         if rounding in ('1', 'one'):

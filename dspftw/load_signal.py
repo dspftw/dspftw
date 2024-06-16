@@ -32,11 +32,13 @@ def load_signal(file_name: str, signal_type: str, number_space: str, endianness:
 
     Returns a numpy array.
     '''
-    full_signal_type = FullSignalType(signal_type, number_space, endianness,rounding)
-    data = fromfile(file_name,
-                    dtype=full_signal_type.numpy_dtype(),
-                    offset=full_signal_type.offset(start_sample),
-                    count=full_signal_type.count(num_samples))
+    full_signal_type = FullSignalType(signal_type, number_space, endianness, rounding)
+    data = fromfile(
+        file_name,
+        dtype=full_signal_type.numpy_dtype(),
+        offset=full_signal_type.offset(start_sample),
+        count=full_signal_type.count(num_samples),
+    )
     return full_signal_type.post_load(data)
 
 def loadsig(*args, **kwargs) -> nparray:

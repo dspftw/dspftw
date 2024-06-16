@@ -21,9 +21,9 @@ def decimal_convert_to_base(decimal_number: nparray, base: int, num_digits: int)
     # Ensure we have integers
     decnum = rint(decimal_number).astype(int)
     # Exponent array
-    exp_arr = kron(ones(decnum.shape,dtype=int),base**arange(num_digits-1,-1,-1,dtype=int))
+    exp_arr = kron(ones(decnum.shape, dtype=int), base**arange(num_digits-1, -1, -1, dtype=int))
     # Base array
-    base_arr = kron(decnum,ones((1,num_digits),dtype=int))
+    base_arr = kron(decnum, ones((1, num_digits), dtype=int))
 
     # Return
     return ((base_arr//exp_arr)%base)

@@ -9,10 +9,12 @@ from numpy import array as nparray
 from scipy.signal import fftconvolve
 from .root_raised_cosine_filter_generator import root_raised_cosine_filter_generator
 
-def generate_qam(symbol_indices: nparray,
-                 constellation: nparray,
-                 samples_per_sym: int=2,
-                 beta: float=0.25) -> nparray:
+def generate_qam(
+    symbol_indices: nparray,
+    constellation: nparray,
+    samples_per_sym: int=2,
+    beta: float=0.25,
+) -> nparray:
     '''
     Parameters
     ----------
@@ -32,24 +34,18 @@ def generate_qam(symbol_indices: nparray,
     # Check Parameters
     # Symbol indices must be between 0 and length(constellation).
     if max(symbol_indices) < 0:
-        print("generate_qam error: All symbol indices must be at least 0")
-        return symbol_indices
+        raise ValueError("generate_qam error: All symbol indices must be at least 0")
 
     if max(symbol_indices) >= len(constellation):
-        print("generate_qam error: All symbol indices must be less than"
-        "the constellation size (",len(constellation),")")
-        return symbol_indices
+        raise ValueError(f"generate_qam error: All symbol indices must be less than the constellation size ({len(constellation)})")
 
     # Constellation must have at least 2 points
     if len(constellation) < 2:
-        print("generate_qam error: Constellation size (",len(constellation),
-        ") must be at least 2.")
-        return symbol_indices
+        raise ValueError(f"generate_qam error: Constellation size ({len(constellation)}) must be at least 2.")
 
     # If user provided sceale, then it must be nonnegative
     if beta < 0 or beta > 1:
-        print("generate_qam error: Beta (",beta,") must be between 0 and 1.")
-        return symbol_indices
+        raise ValueError(f"generate_qam error: Beta ({beta}) must be between 0 and 1.")
 
     # Get to work
 
@@ -61,7 +57,7 @@ def generate_qam(symbol_indices: nparray,
 
     # Create pulse shaping filter
     baud_width = 21
-    pulse_shape = root_raised_cosine_filter_generator(baud_width,1,samples_per_sym,beta)
+    pulse_shape = root_raised_cosine_filter_generator(baud_width, 1, samples_per_sym, beta)
 
     # Return
     return fftconvolve(pulse_train, pulse_shape, mode="same")

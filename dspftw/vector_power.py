@@ -12,7 +12,7 @@ def vector_power(vector: nparray) -> nparray:
     # Ensure vector is a complex row vector
     vector = np.array([vector.flatten()]).astype(complex)
 
-    return ((vector.dot(np.transpose(vector.conjugate()))).real)[0,0]/float(vector.shape[1])
+    return ((vector.dot(np.transpose(vector.conjugate()))).real)[0, 0] / float(vector.shape[1])
 
 def vecpow(*args, **kwargs) -> nparray:
     '''

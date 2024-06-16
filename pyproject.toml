@@ -19,6 +19,7 @@ scipy = "^1.6.3"
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 
+
 [tool.tox]
 legacy_tox_ini = """
 [tox]
@@ -27,15 +28,17 @@ isolated_build = true
 
 [gh-actions]
 python =
-	3.9: py39
-	3.10: py310
-	3.11: py311
+  3.9: py39
+  3.10: py310
+  3.11: py311
 
 [testenv]
 recreate = true
 deps =
-	pylint
+  flake8
+  pylint
 commands =
-	python -m pylint --disable=C,R -s no dspftw
-	python -m unittest discover tests
+  python -m flake8 --select E201,E202,E231,E262,E265 dspftw
+  python -m pylint --disable=C,R -s no dspftw
+  python -m unittest discover tests
 """
