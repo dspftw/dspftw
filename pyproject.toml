@@ -16,9 +16,27 @@ python = "^3.7,<3.12"
 numpy = "^1.20.0"
 scipy = "^1.6.3"
 
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
-
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 120
+disable = [
+  "too-many-nested-blocks",
+  "too-many-branches",
+  "too-many-statements",
+  "R0801",
+  "R0902",
+  "R0903",
+  "R0911",
+  "R0913",
+  "R0914",
+  "C0103",
+  "C0114",
+  "C0115",
+  "C0116",
+  "C0123",
+  "C0301",
+  "C0302",
+  "fixme",
+]
 
 [tool.tox]
 legacy_tox_ini = """
@@ -39,6 +57,6 @@ deps =
   pylint
 commands =
   python -m flake8 --select E201,E202,E231,E262,E265 dspftw
-  python -m pylint --disable=C,R -s no dspftw
+  python -m pylint dspftw
   python -m unittest discover tests
 """

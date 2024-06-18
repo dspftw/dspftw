@@ -18,4 +18,3 @@ def normalize_write_mode(write_mode: str) -> WriteMode:
         return WriteMode.APPEND
 
     raise WriteModeException(f"Unknown write mode {write_mode}")
-

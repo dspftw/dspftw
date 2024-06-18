@@ -23,4 +23,3 @@ class WriteModeException(DSPFTWException):
 
 class RoundingException(DSPFTWException):
     pass
-

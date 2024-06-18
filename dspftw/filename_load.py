@@ -32,7 +32,7 @@ def get_file_type(filename: str) -> FileType:
     if extension == '.bits':
         return FileType.BITS
 
-    raise FileNameException('Could not determine file type by extension {}'.format(extension))
+    raise FileNameException(f'Could not determine file type by extension {extension}')
 
 def get_number_space(filename: str) -> str:
     if '.cplx.' in filename:
@@ -41,7 +41,7 @@ def get_number_space(filename: str) -> str:
     if '.real.' in filename:
         return 'real'
 
-    raise FileNameException('Could not determine if file is real or complex based on filename {}'.format(filename))
+    raise FileNameException(f'Could not determine if file is real or complex based on filename {filename}')
 
 def get_endianness(filename: str) -> str:
     _, extension = splitext(filename)
@@ -58,7 +58,7 @@ def get_sample_rate(filename: str) -> float:
         return float(match.group('sample_rate'))
 
     except AttributeError as ex:
-        raise FileNameException('Could not determine sample rate from filename {}'.format(filename)) from ex
+        raise FileNameException(f'Could not determine sample rate from filename {filename}') from ex
 
 def get_extension(filename: str) -> str:
     _, extension = splitext(filename)
@@ -112,7 +112,7 @@ def filename_load(filename: str, count: int=-1, offset: int=0) -> Tuple[nparray,
     if file_type == FileType.BITS:
         return filename_load_bits(filename, count, offset)
 
-    raise FileNameException('Could not determine how to load {}'.format(filename))
+    raise FileNameException(f'Could not determine how to load {filename}')
 
 def fnload(*args, **kwargs) -> nparray:
     '''

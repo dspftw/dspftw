@@ -25,8 +25,7 @@ def decimal_convert_to_base(decimal_number: nparray, base: int, num_digits: int)
     # Base array
     base_arr = kron(decnum, ones((1, num_digits), dtype=int))
 
-    # Return
-    return ((base_arr//exp_arr)%base)
+    return (base_arr//exp_arr) % base
 
 def num2base(*args, **kwargs) -> nparray:
     '''

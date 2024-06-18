@@ -7,11 +7,13 @@ from numpy import fromfile
 
 from .data_types import FullDataType
 
-def load_data(file_name: str, 
-              data_type: str, 
-              endianness: str=byteorder, 
-              count: int=-1, 
-              offset: int=0) -> nparray:
+def load_data(
+    file_name: str,
+    data_type: str,
+    endianness: str=byteorder,
+    count: int=-1,
+    offset: int=0,
+) -> nparray:
     '''
     Loads data from a file.
 

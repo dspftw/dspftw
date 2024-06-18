@@ -30,4 +30,3 @@ def normalize_rounding(rounding: Any) -> Rounding:
         return Rounding.TRUEONE
 
     raise RoundingException(f"Unknown rounding {rounding}")
-
