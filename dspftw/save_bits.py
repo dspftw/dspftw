@@ -62,6 +62,9 @@ def save_bits(file_name: str, bool_array: nparray, packed=True, write_mode: str=
 
     write_mode = normalize_write_mode(write_mode)
 
+    if len(bool_array) == 0:
+        bool_array = nparray([], dtype=int)
+
     with open(file_name, write_mode.value) as bit_file:
         return save_bits_to(bit_file, bool_array, packed)
 
