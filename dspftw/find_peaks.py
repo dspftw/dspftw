@@ -40,7 +40,7 @@ def find_peaks(inarray: nparray, min_height: float=1, min_dist: int=20, num_peak
 
     # Pad with 'min_dist' elements to both ends of 'arr'
     # Prevents possible error when overwriting array with "zero-ed" elements
-    arr = pad(arr, (min_dist, min_dist), "constant", constant_values=(min_height-1,min_height-1))
+    arr = pad(arr, (min_dist, min_dist), "constant", constant_values=(min_height-1, min_height-1))
 
     # Find index with maximum value
     midx = argmax(arr)
