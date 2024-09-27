@@ -3,7 +3,7 @@
 Find indices of peaks
 '''
 
-from Typing import Any
+from typing import Any
 from numpy import array as nparray
 from numpy import append, arange, argmax, copy, inf, ones, pad
 
