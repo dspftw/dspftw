@@ -7,7 +7,7 @@ from typing import Any
 from numpy import array as nparray
 from numpy import append, arange, argmax, copy, inf, ones, pad
 
-def find_peaks(inarray: nparray, min_height: float=1, min_dist: int=20, num_peaks: Any=inf):
+def find_peaks(inarray: nparray, min_height: float=1, min_dist: int=20, num_peaks: Any=inf) -> nparray:
     '''
     Find indices of peak values in order of greatest value to least
 

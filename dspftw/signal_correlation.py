@@ -7,7 +7,7 @@ from scipy.signal import convolve, correlate
 
 import numpy as np
 
-def signal_correlation(in1: np.array, in2: np.array, norm=True, mode='full', method='auto'):
+def signal_correlation(in1: np.array, in2: np.array, norm=True, mode='full', method='auto') -> np.array:
     '''
     Cross-correlates two arrays and normalizes the output
 
