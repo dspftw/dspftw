@@ -8,7 +8,15 @@ from numpy import fromfile
 
 from .signal_types import FullSignalType
 
-def load_signal(file_name: str, signal_type: str, number_space: str, endianness: str=byteorder, num_samples: int=-1, start_sample: int=0, rounding: Any=0) -> nparray:
+def load_signal(  # pylint: disable=too-many-positional-arguments
+    file_name: str,
+    signal_type: str,
+    number_space: str,
+    endianness: str=byteorder,
+    num_samples: int=-1,
+    start_sample: int=0,
+    rounding: Any=0,
+) -> nparray:
     '''
     Loads a signal from a file in float or two's compliment, real or complex format.
 

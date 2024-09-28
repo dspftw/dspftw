@@ -7,8 +7,15 @@ from .signal_types import FullSignalType
 from .rounding import  Rounding
 from .writemode import normalize_write_mode
 
-def save_signal(file_name: str, sig: np.array, signal_type: str, number_space: str,
-                endianness: str, write_mode: str='w', rounding: Any=0) -> Tuple[int, int]:
+def save_signal(  # pylint: disable=too-many-positional-arguments
+    file_name: str,
+    sig: np.array,
+    signal_type: str,
+    number_space: str,
+    endianness: str,
+    write_mode: str='w',
+    rounding: Any=0,
+) -> Tuple[int, int]:
     '''
     Function to use numpy package to write PCM data.
 

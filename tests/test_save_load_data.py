@@ -6,8 +6,23 @@ from tempfile import TemporaryDirectory
 import unittest
 
 from numpy import array as nparray
+from numpy import dtype
 
 import dspftw
+
+def platform_has_f16():
+    '''
+    x86_64 appears to support float128 whereas
+    Apple M1 does not, so only test what's
+    possible.
+    '''
+    try:
+        dtype('<f16')
+        return True
+    except TypeError:
+        pass
+
+    return False
 
 class SaveLoadDataTests(unittest.TestCase):
     def try_save_load(self, data, data_type, endianness):
@@ -25,9 +40,15 @@ class SaveLoadDataTests(unittest.TestCase):
 
     def test_save_load(self):
         data = nparray(range(127))  # wrap-around causes values above 127 to fail for int8
-        data_types = ('uint8', 'uint16', 'uint32', 'uint64',
-                      'int8', 'int16', 'int32', 'int64',
-                      'float32', 'float64', 'float128')
+        data_types = [
+            'uint8', 'uint16', 'uint32', 'uint64',  # uints
+            'int8', 'int16', 'int32', 'int64',  # ints
+            'float32', 'float64',  # floats
+        ]
+
+        if platform_has_f16():
+            data_types.append('float128')
+
         endiannesses = ('little', 'big')
 
         for data_type in data_types:
