@@ -11,13 +11,15 @@ from .load_signal import load_signal
 from .load_data import load_data
 from .root_raised_cosine_filter_generator import root_raised_cosine_filter_generator
 
-def test_qpsk_modulation(ifile_samples: str,
-                         ifile_symbols: str,
-                         sample_type: str='16t',
-                         endianness: str='b',
-                         num_symbols: int=0,
-                         samples_per_sym: int=2,
-                         beta: float=0.25) -> int:
+def test_qpsk_modulation(  # pylint: disable=too-many-positional-arguments
+    ifile_samples: str,
+    ifile_symbols: str,
+    sample_type: str='16t',
+    endianness: str='b',
+    num_symbols: int=0,
+    samples_per_sym: int=2,
+    beta: float=0.25,
+) -> int:
     '''
     Parameters
     ----------

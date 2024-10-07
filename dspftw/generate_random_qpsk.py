@@ -12,13 +12,15 @@ from .generate_qam import generate_qam
 from .save_signal import save_signal
 from .save_data import save_data
 
-def generate_random_qpsk(ofile_samples: str,
-                         ofile_symbols: str='',
-                         sample_type: str='16t',
-                         endianness: str='b',
-                         num_symbols: int=10000,
-                         samples_per_sym: int=2,
-                         beta: float=0.25) -> int:
+def generate_random_qpsk(  # pylint: disable=too-many-positional-arguments
+    ofile_samples: str,
+    ofile_symbols: str='',
+    sample_type: str='16t',
+    endianness: str='b',
+    num_symbols: int=10000,
+    samples_per_sym: int=2,
+    beta: float=0.25,
+) -> int:
     '''
     Parameters
     ----------
