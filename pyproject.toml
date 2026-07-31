@@ -12,9 +12,9 @@ readme = "README.md"
 version = "0.0.1"
 
 [tool.poetry.dependencies]
-python = "^3.7"
-numpy = "^1.20.0"
-scipy = "^1.6.3"
+python = ">=3.12,<3.15"
+numpy = ">=2.0,<3.0"
+scipy = ">=1.18,<2.0"
 
 [tool.pylint.'MESSAGES CONTROL']
 max-line-length = 120
@@ -42,14 +42,14 @@ disable = [
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py39,py310,py311
+envlist = py312,py313,py314
 isolated_build = true
 
 [gh-actions]
 python =
-  3.9: py39
-  3.10: py310
-  3.11: py311
+  3.12: py312
+  3.13: py313
+  3.14: py314
 
 [testenv]
 recreate = true
