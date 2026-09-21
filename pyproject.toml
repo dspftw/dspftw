@@ -40,27 +40,17 @@ disable = [
 ]
 
 [tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist = py39,py310,py311,py312,py313,py314
-isolated_build = true
+env_list = ["py39","py310","py311","py312","py313","py314"]
 
-[gh-actions]
-python =
-  3.9: py39
-  3.10: py310
-  3.11: py311
-  3.12: py312
-  3.13: py313
-  3.14: py314
-
-[testenv]
+[too.tox.env_run_base]
 recreate = true
-deps =
-  flake8
-  pylint
-commands =
-  python -m flake8 --select E201,E202,E231,E262,E265 dspftw
-  python -m pylint dspftw
-  python -m unittest discover tests
-"""
+deps = [
+    "flake8",
+    "pylint",
+]
+
+commands = [
+    ["python", "-m", "flake8", "--select", "E201,E202,E231,E262,E265", "dspftw"],
+    ["python", "-m", "pylint", "dspftw"],
+    ["python", "-m", "unittest", "discover", "tests"],
+]
