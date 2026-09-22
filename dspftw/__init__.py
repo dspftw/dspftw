@@ -1,5 +1,6 @@
 # vim: expandtab tabstop=4 shiftwidth=4
 
+from .base_convert_to_decimal import base_convert_to_decimal, base2num
 from .complex_sinusoid import complex_sinusoid
 from .data_types import FullDataType
 from .decimal_convert_to_base import decimal_convert_to_base, num2base

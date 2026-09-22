@@ -20,6 +20,7 @@ def generate_random_qpsk(  # pylint: disable=too-many-positional-arguments
     num_symbols: int=10000,
     samples_per_sym: int=2,
     beta: float=0.25,
+    seed: int | None = None,
 ) -> int:
     '''
     Parameters
@@ -47,6 +48,9 @@ def generate_random_qpsk(  # pylint: disable=too-many-positional-arguments
     beta:
         Roll off factor.  Must be a float between 0 and 1.
         Default 0.25
+    seed:
+        Seed for random symbol generation.
+        Default: None
 
     Returns number of samples written to file.
     '''
@@ -65,7 +69,8 @@ def generate_random_qpsk(  # pylint: disable=too-many-positional-arguments
         raise DSPFTWException('Beta must be between 0 and 1')
 
     # Generate random symbols
-    symbol_indices = np.random.randint(0, 2, num_symbols)
+    rng = np.random.default_rng(seed)
+    symbol_indices = rng.integers(0, 4, num_symbols)
 
     # QPSK constellation
     constellation = exp(2j * pi * np.arange(1, 8, 2) / 8.0)
