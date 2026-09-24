@@ -3,3 +3,7 @@ dist
 poetry.lock
 *.egg-info
 __pycache__
+# Local signal correlation experiments
+dspftw/signal_correlation_moving_sum.py
+memory_test_signal_correlation.py
+memory_test_signal_correlation2.py
