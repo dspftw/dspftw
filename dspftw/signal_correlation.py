@@ -4,7 +4,7 @@
 '''
 
 from numpy import array as nparray
-from numpy import abs, asarray, divide, maximum, ones, sqrt, sum
+from numpy import absolute, asarray, divide, maximum, ones, sqrt
 from numpy import bool_
 from scipy.signal import convolve, correlate
 from .exceptions import DSPFTWException
@@ -69,10 +69,10 @@ def signal_correlation(in1: nparray, in2: nparray, norm=True, mode='full', metho
     out_arr = correlate(arr_l, arr_s, mode=mode, method=method)
     # Default output is set to normalized
     if norm:
-        s_pow = sqrt(sum(abs(arr_s)**2))
+        s_pow = sqrt((absolute(arr_s)**2).sum())
         # Calculate sliding energy of long signal
         l_pow = convolve(
-            abs(arr_l)**2,
+            absolute(arr_l)**2,
             ones(len(arr_s)),
             mode=mode,
             method=method,
