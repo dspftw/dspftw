@@ -133,3 +133,72 @@ signal = np.fromfile('filename', dtype='>f')
 ```
 
 `count` and `offset` work as above, but note that `offset` is in bytes, so you must multiple by 4 since there are 4 bytes in 32 bits.
+
+#### Loading Signals with DSPFTW
+
+The `dspftw.load_signal()` function supports real and complex binary recordings in five formats: `8t`, `16t`, `32t` (signed two's-complement integers), and `32f`, `64f` (floating-point).
+
+By default, integer recordings are normalized to floating-point values, and complex recordings are returned as NumPy complex arrays.
+
+For large recordings, `memory_map=True` allows NumPy to access samples directly through a memory-mapped file without first loading the entire recording into a separate array.
+
+##### Memory-Mapped Floating-Point Signals
+
+```python
+from dspftw import load_signal
+
+signal = load_signal(
+    "recording.bin",
+    "32f",
+    "complex",
+    endianness="big",
+    memory_map=True,
+)
+```
+
+Both little-endian and big-endian `32f` and `64f` recordings retain their original byte order and remain memory-mapped without an initial byte-swapping operation.
+
+Real signals return one-dimensional floating-point arrays. Complex signals return one-dimensional NumPy complex arrays.
+
+##### Memory-Mapped Two's-Complement Integer Signals
+
+For `8t`, `16t`, and `32t` recordings, use `normalize=False` to preserve the original integer samples and avoid converting the entire recording into floating-point values.
+
+```python
+signal = load_signal(
+    "recording.bin",
+    "16t",
+    "complex",
+    memory_map=True,
+    normalize=False,
+)
+```
+
+Complex integer recordings return a two-dimensional array with shape `(N, 2)`:
+
+```python
+i_samples = signal[:, 0]
+q_samples = signal[:, 1]
+```
+
+Column 0 contains the in-phase (I) samples, and column 1 contains the quadrature (Q) samples. Both columns remain backed by the memory-mapped file.
+
+Real integer recordings return a one-dimensional integer array.
+
+The original signed integer dtype and byte order are preserved. Neither normalization nor byte swapping is performed. The `rounding` argument has no effect in this mode.
+
+`normalize=False` requires `memory_map=True` and is supported only for two's-complement integer recordings.
+
+##### Normalized Integer Signals
+
+The default is `normalize=True`, preserving the library's existing behavior.
+
+When integer samples are normalized, the result is a new floating-point array, even if `memory_map=True`. Therefore, normalized integer recordings do not retain the zero-copy advantage of raw memory-mapped loading.
+
+##### Memory-Mapping Considerations
+
+Memory maps use copy-on-write mode (`mode='c'`). Changes to the returned array do not modify the original recording file.
+
+Memory mapping avoids an initial full-array copy, but accessing samples still consumes physical memory through operating-system memory management. Mathematical operations that create new arrays can also allocate additional memory.
+
+For empty selections, the function returns an ordinary empty NumPy array because an empty file region cannot be memory-mapped.
