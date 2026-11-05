@@ -86,14 +86,29 @@ class FullSignalType:
         return offset * self.items_per_sample() * self.bytes_per_item()
 
     def post_load(self, data: np.array) -> np.array:
-        scaled_signal = data / self.scale()
+        scale = self.scale()
+
+        if scale == 1:
+            if data.dtype.isnative:
+                scaled_signal = data
+            else:
+                # Convert the temporary input buffer to native byte order.
+                data.byteswap(inplace=True)
+                scaled_signal = data.view(data.dtype.newbyteorder('='))
+        else:
+            scaled_signal = data / scale
 
         if self.is_twos_compliment_signal_type() and self.rounding == Rounding.TRUEONE:
             scaled_signal += 1 / (2*self.scale())
 
         if self.is_complex():
-            return scaled_signal[0::2] + scaled_signal[1::2]*1j
+            if scale == 1 and scaled_signal.dtype.isnative:
+                if self.signal_type == SignalType.ST32F:
+                    return scaled_signal.view(np.complex64)
+                if self.signal_type == SignalType.ST64F:
+                    return scaled_signal.view(np.complex128)
 
+            return scaled_signal[0::2] + scaled_signal[1::2]*1j
         return scaled_signal
 
     def clip_signal(self, signal: np.array) -> Tuple[np.array, int]:
