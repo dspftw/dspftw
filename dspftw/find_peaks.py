@@ -2,10 +2,9 @@
 '''
 Find indices of peaks
 '''
-
 from typing import Any
 from numpy import array as nparray
-from numpy import append, arange, argmax, copy, inf, ones, pad
+from numpy import argsort, asarray, flatnonzero, inf, zeros
 
 def find_peaks(inarray: nparray, min_height: float=1, min_dist: int=20, num_peaks: Any=inf) -> nparray:
     '''
@@ -28,37 +27,42 @@ def find_peaks(inarray: nparray, min_height: float=1, min_dist: int=20, num_peak
     Returns at most num_peaks indices in a numpy array.
     '''
 
-    # Output will be integer list of indices
-    out = nparray([], dtype=int)
+    # Flatten without copying unless necessary.
+    arr = asarray(inarray).ravel()
+    n = arr.size
 
-    # In case num_peaks <= 0 output emptry array
-    if num_peaks <= 0:
-        return out
+    out = []
+    if num_peaks <= 0 or n == 0:
+        return nparray(out, dtype=int)
 
-    # Flatten array
-    arr = copy(inarray).flatten()
+    # Select all samples strictly above the threshold.
+    cand = flatnonzero(arr > min_height)
+    if cand.size == 0:
+        return nparray(out, dtype=int)
 
-    # Pad with 'min_dist' elements to both ends of 'arr'
-    # Prevents possible error when overwriting array with "zero-ed" elements
-    arr = pad(arr, (min_dist, min_dist), "constant", constant_values=(min_height-1, min_height-1))
+    # Strongest first; stable sorting preserves lowest-index
+    # priority when sample values are equal.
+    order = argsort(-arr[cand], kind='stable')
+    cand = cand[order]
 
-    # Find index with maximum value
-    midx = argmax(arr)
-    while arr[midx] > min_height:
-        # Append maximal index to output array
-        out = append(out, midx-min_dist)
-        # Check if we reached the maximum number of peaks
+    # Suppress samples within min_dist of each selected peak.
+    suppressed = zeros(n, dtype=bool)
+
+    for idx in cand:
+        if suppressed[idx]:
+            continue
+
+        out.append(int(idx))
+
         if len(out) >= num_peaks:
-            return out
+            break
 
-        # "Zero" array values withing min_dist of maximal index
-        arr[arange(midx-min_dist, midx+min_dist+1)] = ones(2*min_dist+1)*(min_height-1)
+        lo = max(0, idx - min_dist)
+        hi = min(n, idx + min_dist + 1)
+        suppressed[lo:hi] = True
 
-        # Find index with maximum value for next iteration
-        midx = argmax(arr)
-
-    return out
-
+    return nparray(out, dtype=int)
+    
 
 def findpeaks(*args, **kwargs):
     '''
