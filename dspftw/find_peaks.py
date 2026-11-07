@@ -5,6 +5,7 @@ Find indices of peaks
 from typing import Any
 from numpy import array as nparray
 from numpy import argsort, asarray, flatnonzero, inf, zeros
+from numpy import lexsort
 
 def find_peaks(inarray: nparray, min_height: float=1, min_dist: int=20, num_peaks: Any=inf) -> nparray:
     '''
@@ -42,7 +43,12 @@ def find_peaks(inarray: nparray, min_height: float=1, min_dist: int=20, num_peak
 
     # Strongest first; stable sorting preserves lowest-index
     # priority when sample values are equal.
-    order = argsort(-arr[cand], kind='stable')
+    if arr.dtype.kind in 'iu':
+        sort_values = ~arr[cand]
+    else:
+        sort_values = -arr[cand]
+
+    order = lexsort((cand, sort_values))
     cand = cand[order]
 
     # Suppress samples within min_dist of each selected peak.
@@ -62,7 +68,7 @@ def find_peaks(inarray: nparray, min_height: float=1, min_dist: int=20, num_peak
         suppressed[lo:hi] = True
 
     return nparray(out, dtype=int)
-    
+
 
 def findpeaks(*args, **kwargs):
     '''

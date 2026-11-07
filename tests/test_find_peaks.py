@@ -1,7 +1,7 @@
 
 import unittest
 
-from numpy import arange, array, exp
+from numpy import arange, array, exp, uint8
 from numpy.testing import assert_array_equal
 
 from dspftw import find_peaks
@@ -103,6 +103,13 @@ class TestFindPeaks(unittest.TestCase):
                             length=length, distance=distance,
                             height=height, limit=limit):
                             assert_array_equal(actual, expected)
+
+    def test_unsigned_integer_with_zero_candidates(self):
+        signal = array([0, 100, 0, 200, 0], dtype=uint8)
+
+        result = find_peaks(signal, min_height=-1, min_dist=0)
+
+        self.assertEqual(result.tolist(), [3, 1, 0, 2, 4])
 
 if __name__ == '__main__':
     unittest.main()
