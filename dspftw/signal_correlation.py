@@ -4,11 +4,12 @@
 '''
 
 from numpy import array as nparray
-from numpy import absolute, asarray, arange, complex128, divide
-from numpy import maximum, minimum, ones, sqrt
-from numpy import bool_
+from numpy import absolute, arange, asarray, bool_, complex128
+from numpy import conjugate, cumsum, divide, empty, int64
+from numpy import maximum, minimum, ones, sqrt, zeros
 from scipy.signal import convolve, correlate
 from scipy.fft import fft, ifft, next_fast_len
+
 from .exceptions import DSPFTWException
 
 BLOCK_DEFAULT = 2**22
@@ -16,8 +17,6 @@ BLOCK_SIZE_DEFAULT = 2**16
 
 def _correlate_blocked_full(signal, pattern, block):
     """Compute full correlation using overlap-save FFT blocks."""
-    from numpy import complex128, empty, zeros
-    from numpy import conjugate
 
     n_signal = len(signal)
     n_pattern = len(pattern)
@@ -71,8 +70,6 @@ def _correlate_blocked_full(signal, pattern, block):
 
 def _normalize_blocked_full(output, signal, pattern, block):
     """Normalize correlation using blockwise convolution with ones."""
-    from numpy import absolute, complex128, maximum, ones, sqrt
-    from scipy.signal import convolve
 
     n_signal = len(signal)
     n_pattern = len(pattern)
@@ -117,8 +114,6 @@ def _normalize_blocked_full(output, signal, pattern, block):
         window_energy *= pattern_power
 
         # Identify windows containing actual nonzero signal samples.
-        from numpy import cumsum, count_nonzero, empty, int64
-
         # Count nonzero samples in each convolution window.
         active_samples = power > 0
 
