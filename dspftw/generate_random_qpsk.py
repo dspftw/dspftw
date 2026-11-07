@@ -6,6 +6,7 @@ filter with given beta.
 '''
 import numpy as np
 from numpy import exp, pi
+from typing import Optional
 
 from .exceptions import DSPFTWException
 from .generate_qam import generate_qam
@@ -20,7 +21,7 @@ def generate_random_qpsk(  # pylint: disable=too-many-positional-arguments
     num_symbols: int=10000,
     samples_per_sym: int=2,
     beta: float=0.25,
-    seed: int | None = None,
+    seed: Optional[int] = None,
 ) -> int:
     '''
     Parameters
