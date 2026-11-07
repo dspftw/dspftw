@@ -7,3 +7,9 @@ __pycache__
 experiments/
 memory_test_signal_correlation.py
 memory_test_signal_correlation2.py
+
+# macOS Finder metadata
+.DS_Store
+
+# Local correlation test output
+correlation_errors.txt
