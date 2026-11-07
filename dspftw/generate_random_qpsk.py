@@ -4,9 +4,10 @@ QPSK signal is complex basebanded and sampled at 'samples_per_sym'
 samples per symbol.  The signal is generated using a root raised cosine
 filter with given beta.
 '''
+from typing import Optional
+
 import numpy as np
 from numpy import exp, pi
-from typing import Optional
 
 from .exceptions import DSPFTWException
 from .generate_qam import generate_qam
