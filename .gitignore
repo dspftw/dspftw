@@ -13,3 +13,6 @@ memory_test_signal_correlation2.py
 
 # Local correlation test output
 correlation_errors.txt
+
+# Local Poetry build environment
+.venv-build/
