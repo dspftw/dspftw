@@ -5,7 +5,7 @@ Starting points and helper functions for learning digital signal processing.
 
 ## Setup
 
-If you haven't already, install Python 3.5 or greater, and the `dspftw` package.
+Requires Python 3.10 or newer (Python 3.10 through 3.14 supported).
 
 ```sh
 python3 -m pip install dspftw --user
@@ -62,11 +62,17 @@ times = np.linspace(0, 1, num=25)  # 25 evenly spaced values between 0 and 1
 my_signal = my_sinusoid(times)  # returns an array of complex values representing the signal
 ```
 
-Now plot it out with `dspftw.plot_complex()`, which uses matplotlib.
+Now plot the real and imaginary components of the complex sinusoid using Matplotlib.
 
 ```python
 import matplotlib.pyplot as plt
-dspftw.plot_complex(my_signal)
+
+plt.plot(times, my_signal.real, label='Real')
+plt.plot(times, my_signal.imag, label='Imaginary')
+plt.xlabel('Time (seconds)')
+plt.ylabel('Amplitude')
+plt.legend()
+plt.grid(True)
 plt.show()
 ```
 
