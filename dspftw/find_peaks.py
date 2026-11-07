@@ -4,7 +4,7 @@ Find indices of peaks
 '''
 from typing import Any
 from numpy import array as nparray
-from numpy import argsort, asarray, flatnonzero, inf, zeros
+from numpy import asarray, flatnonzero, inf, zeros
 from numpy import lexsort
 
 def find_peaks(inarray: nparray, min_height: float=1, min_dist: int=20, num_peaks: Any=inf) -> nparray:
