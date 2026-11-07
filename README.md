@@ -91,6 +91,44 @@ plt.show()
 
 [numpy.correlate](https://numpy.org/doc/stable/reference/generated/numpy.correlate.html)
 
+
+#### Signal Correlation
+
+`dspftw.signal_correlation()` computes the cross-correlation of two
+one-dimensional signals, with optional normalization.
+
+The function supports `full`, `same`, and `valid` output modes.
+
+For large signals, it uses overlap-save FFT processing to reduce
+peak memory usage.
+
+The `block` parameter controls processing:
+
+- `block=None` (default): Automatically selects the implementation.
+  Signals containing at most 2**22 samples use the original SciPy
+  implementation. Larger signals use overlap-save processing with
+  a default block size of 2**16 samples.
+- `block=0`: Forces the original SciPy implementation.
+- `block=N` (positive integer): Uses overlap-save processing with
+  N new samples per block.
+
+Example:
+
+```python
+from dspftw import signal_correlation
+
+# Automatic processing
+result = signal_correlation(signal, reference, norm=True)
+
+# Explicit overlap-save processing
+result = signal_correlation(signal, reference, norm=True,
+                            block=65536)
+```
+
+For a one-million-sample complex64 signal and a 1024-sample reference,
+benchmarking showed approximately 66% less additional peak memory
+with blocked processing compared with the original implementation.
+
 ### Kronecker Product
 
 [numpy.kron](https://numpy.org/doc/stable/reference/generated/numpy.kron.html)
