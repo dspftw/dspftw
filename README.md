@@ -2,6 +2,20 @@
 
 Starting points and helper functions for learning digital signal processing.
 
+## Versioning
+
+DSPFTW maintains two independent version identifiers:
+
+- **Release version:** A calendar-based version in the format
+  `YEAR.DAY_OF_YEAR.MINUTE_OF_DAY`, used for PyPI releases.
+- **Maturity version:** A semantic version indicating the
+  library's development maturity.
+
+**Current maturity version: 0.2.0**
+
+The library is functional and tested across supported Python
+versions, but its public API may change as development continues.
+A maturity version of 1.0.0 will indicate a stable public API.
 
 ## Setup
 
