@@ -49,7 +49,8 @@ jobs:
         python -m pip install poetry twine
     - name: Build with poetry
       run: |
-        poetry version `python scripts/generate_version.py`
+        VERSION="${GITHUB_REF_NAME#v}"
+        poetry version "$VERSION"
         poetry build
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
