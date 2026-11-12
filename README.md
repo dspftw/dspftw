@@ -17,6 +17,11 @@ The library is functional and tested across supported Python
 versions, but its public API may change as development continues.
 A maturity version of 1.0.0 will indicate a stable public API.
 
+## Releasing
+
+Instructions for preparing, testing, and publishing new DSPFTW
+versions to PyPI are available in [RELEASING.md](RELEASING.md).
+
 ## Setup
 
 Requires Python 3.10 or newer (Python 3.10 through 3.14 supported).
